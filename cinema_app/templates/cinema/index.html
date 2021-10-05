@@ -1,0 +1,9 @@
+{% if filmes %}
+    <ul>
+    {% for filme in filmes %}
+        <li>{{filme.nome}}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Não há filmes cadastrados.</p>
+{% endif %}
