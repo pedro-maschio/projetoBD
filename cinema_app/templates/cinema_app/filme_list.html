@@ -1,0 +1,44 @@
+{% extends "cinema_app/base.html" %}
+
+{% block content %}
+
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Nome</td>
+            <td>Ano de lançamento</td>
+            <td>Diretor</td>
+            <td>Duração</td>
+
+            <td>
+                <a href="{% url 'filme_insert'%}" class="btn btn-outline-success">
+                <i class="fas fa-plus"></i> Cadastrar novo Filme
+            </a>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for filme in filme_list %}
+            <tr>
+                <td>{{filme.nome}}</td>
+                <td>{{filme.ano_lancamento}}</td>
+                <td>{{filme.nome_diretor}}</td>
+                <td>{{filme.duracao_min}} </td>
+                <td>
+                    <a href="{% url 'filme_update' filme.id %}" class="btn text-secondary px-0">
+                        <i class="far fa-edit fa-lg"></i>
+                    </a>
+                    <form action="{% url 'filme_delete' filme.id %}" method='POST' class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">
+                            <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                        </button>
+                    </form>
+             
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}
