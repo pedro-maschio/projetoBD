@@ -5,7 +5,12 @@ from django.http import HttpResponse
 from cinema_app.forms import ExibicaoForm, FilmeForm, SalaForm
 from .models import Filme, Sala, Exibicao
 
-# Create your views here.
+
+def pagina_principal(request):
+    return render(request, 'cinema_app/pagina_principal.html')
+
+
+# CRUD de Filmes
 
 def filme_form(request, filme_id=-1):
     
@@ -28,8 +33,6 @@ def filme_form(request, filme_id=-1):
 
         return HttpResponseRedirect('/filmes')
     
-
-
 def filme_list(request):
     context = {'filme_list': Filme.objects.all()}
     
@@ -43,14 +46,12 @@ def filme_delete(request, filme_id=-1):
     return HttpResponseRedirect('/filmes')
 
 
-
-
+# CRUD de Salas
 
 def sala_list(request):
     context = {'sala_list': Sala.objects.all()}
 
     return render(request, 'cinema_app/sala_list.html', context)
-
 
 def sala_form(request, sala_id=-1):
     if request.method == 'GET':
@@ -72,7 +73,6 @@ def sala_form(request, sala_id=-1):
 
         return HttpResponseRedirect('/salas')
 
-
 def sala_delete(request, sala_id=-1):
     if sala_id != -1:
         sala = Sala.objects.get(pk=sala_id)
@@ -80,6 +80,8 @@ def sala_delete(request, sala_id=-1):
     
     return HttpResponseRedirect('/salas')
 
+
+# CRUD de Exibições
 
 def exibicao_list(request):
     context = {'exibicao_list': Exibicao.objects.all()}

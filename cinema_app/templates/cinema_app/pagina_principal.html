@@ -1,0 +1,17 @@
+{% extends "cinema_app/base.html" %}
+
+{% block content %}
+
+
+<a href="{% url 'filme_list' %}" class="btn text-secondary px-0">
+    <i class="far fa-edit fa-lg"></i>Gerenciar Filmes
+</a>
+<a href="{% url 'sala_list' %}" class="btn text-secondary px-0">
+    <i class="far fa-edit fa-lg"></i>Gerenciar Salas
+</a>
+
+<a href="{% url 'exibicao_list' %}" class="btn text-secondary px-0">
+    <i class="far fa-edit fa-lg"></i>Gerenciar Exibições
+</a>
+
+{% endblock content %}
