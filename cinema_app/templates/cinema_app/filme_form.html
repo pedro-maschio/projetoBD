@@ -4,23 +4,16 @@
     {% csrf_token %}
     
 
-    <form>
+
         {{form}}
   
         <button type="submit" class="btn btn-primary"><i class="fas fa-database"></i>Salvar</button>
         
-        <a href="{% url 'filme_list' %}" class="btn btn-secondary btn-block btn-lg">
+        <a type="button" href="{% url 'filme_list' %}" class="btn btn-secondary btn-block">
             <i class="fas fa-stream"></i>Voltar
         </a>  
-    </form>
-  
-    
-
-        
-      
-   
-     
-
 </form>
+  
+
 
 {% endblock content %}

@@ -1,0 +1,45 @@
+{% extends "cinema_app/base.html" %}
+
+{% block content %}
+
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Filme</td>
+            <td>Sala</td>
+            <!-- <td>Administrador</td> -->
+            <td>Data</td>
+            <td>Exibição</td>
+            <td>
+                <a href="{% url 'exibicao_insert'%}" class="btn btn-outline-success">
+                <i class="fas fa-plus"></i> Cadastrar nova Exibição
+            </a>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for exibicao in exibicao_list %}
+            <tr>
+                <td>{{exibicao.codigo_filme}}</td>
+                <td>{{exibicao.codigo_sala}}</td>
+                <!-- <td>{{exibicao.codigo_administrador}}</td> -->
+                <td>{{exibicao.data}}</td>
+                <td>{{exibicao.hora}}</td>
+                <td>
+                    <a href="{% url 'exibicao_update' exibicao.id %}" class="btn text-secondary px-0">
+                        <i class="far fa-edit fa-lg"></i>
+                    </a>
+                    <form action="{% url 'exibicao_delete' exibicao.id %}" method='POST' class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">
+                            <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                        </button>
+                    </form>
+             
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}
