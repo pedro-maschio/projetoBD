@@ -1,7 +1,7 @@
-from django.urls import path 
+from django.urls import path
 from . import views
 
-urlpatterns = [ 
+urlpatterns = [
     path('', views.pagina_principal, name='pagina_principal'),
 
 
@@ -18,5 +18,6 @@ urlpatterns = [
     path('exibicoes/', views.exibicao_list, name='exibicao_list'),
     path('exibicao/<int:exibicao_id>/', views.exibicao_form, name='exibicao_update'),
     path('exibicao/', views.exibicao_form, name='exibicao_insert'),
-    path('exibicao/delete/<int:exibicao_id>/', views.exibicao_delete, name='exibicao_delete')
+    path('exibicao/delete/<int:exibicao_id>/', views.exibicao_delete, name='exibicao_delete'),
+
 ]
