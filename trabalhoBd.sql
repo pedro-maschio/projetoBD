@@ -10,6 +10,7 @@ CREATE TABLE administrador (
 
 CREATE TABLE cinema (
     cnpj VARCHAR(50) PRIMARY KEY NOT NULL,
+    nome varchar(50) NOT NULL,
     endereco VARCHAR(50) NOT NULL,
     cep VARCHAR(20) NOT NULL,
     numero VARCHAR(5) NOT NULL,
@@ -30,13 +31,11 @@ CREATE TABLE cliente (
 
 CREATE TABLE sala (
     codigo VARCHAR(5) PRIMARY KEY NOT NULL,
-    numero_assentos INT NOT NULL,
     saida_emergencia BOOL NOT NULL
 );
 
 CREATE TABLE assento (
-    numero INT PRIMARY KEY NOT NULL,
-    fileira INT NOT NULL,
+    codigo VARCHAR(3) PRIMARY KEY NOT NULL,
     estado_conservacao VARCHAR(100) NOT NULL,
     adaptada BOOL NOT NULL,
     codigo_sala VARCHAR(5) NOT NULL,
@@ -62,7 +61,8 @@ CREATE TABLE exibicao (
     codigo INT PRIMARY KEY NOT NULL,
     codigo_filme INT NOT NULL,
     codigo_sala VARCHAR(5) NOT NULL,
-    horario DATETIME NOT NULL,
+    data DATE NOT NULL,
+    horario TIME NOT NULL,
     FOREIGN KEY (codigo_filme)
         REFERENCES filme (codigo),
     FOREIGN KEY (codigo_sala)
@@ -74,7 +74,7 @@ CREATE TABLE reserva (
     codigo_exibicao INT NOT NULL,
     codigo_cliente VARCHAR(15) NOT NULL,
     codigo_administrador VARCHAR(15) NOT NULL,
-    horario_reserva DATETIME NOT NULL,
+    data_hora DATETIME NOT NULL,
     FOREIGN KEY (codigo_exibicao)
         REFERENCES exibicao (codigo),
     FOREIGN KEY (codigo_administrador)
