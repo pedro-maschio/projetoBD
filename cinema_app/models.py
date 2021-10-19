@@ -17,8 +17,6 @@ class Filme(models.Model):
     nome = models.CharField(max_length=200)
     ano_lancamento = models.IntegerField(   )
     nome_diretor = models.CharField(max_length=200)
-    audio = models.CharField(max_length=50)
-    legenda = models.CharField(max_length=50)
     poster_img = models.CharField(max_length=200)
     duracao_min = models.IntegerField()
     elenco = models.CharField(max_length=100)
