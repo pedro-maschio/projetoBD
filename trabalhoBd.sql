@@ -129,12 +129,14 @@ INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_adm
 INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) VALUES("82.263.132/0001-70", "Cinema Deluxe", "Rua Fictícia, Quadra 6", "74262-009", 9, "Brasília", "Distrito Federal", "678.203.532-44");
 INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) VALUES("91.106.222/0001-49", "Cinema Brasil", "Rua Fictícia, Quadra 7", "72392-003", 13, "Brasília", "Distrito Federal", "799.062.168-16");
 
+
 # Cliente
 INSERT INTO cliente(nome, cpf, email, senha, data_nascimento, sexo, vacinado) VALUES("Carla de Souza Marques", "788.325.518-53", "carla@gmail.com", "TfR3nK!qs$2HM*4v@", "1978-09-30", "Feminino", True);
 INSERT INTO cliente(nome, cpf, email, senha, data_nascimento, sexo, vacinado) VALUES("Marcos Pereira de Abreu", "194.613.624-71", "marcos@gmail.com", "sK9cJhT9!48o72d2*", "2009-04-01", "Masculino", False);
 INSERT INTO cliente(nome, cpf, email, senha, data_nascimento, sexo, vacinado) VALUES("Joana Farias Gomes", "830.701.851-00", "joana@gmail.com", "%bSZaaSTwPS8a3CtT", "2013-01-30", "Feminino", False);
 INSERT INTO cliente(nome, cpf, email, senha, data_nascimento, sexo, vacinado) VALUES("Ana Paula Beltrão", "095.354.581-40", "ana@gmail.com", "yh6pj3!@6PPa%4$Km", "1960-12-15", "Feminino", True);
 INSERT INTO cliente(nome, cpf, email, senha, data_nascimento, sexo, vacinado) VALUES("Antonio César Gomes", "158.586.433-10", "antonio@gmail.com", "kj9^Wyg36q4$Exsr2", "1991-07-24", "Masculino", True);
+
 
 # Sala        
 INSERT INTO sala(codigo_cinema) VALUES("18.236.582/0001-75");
@@ -143,12 +145,14 @@ INSERT INTO sala(codigo_cinema) VALUES("81.276.435/0001-65");
 INSERT INTO sala(codigo_cinema) VALUES("91.106.222/0001-49");
 INSERT INTO sala(codigo_cinema) VALUES("35.658.462/0001-85");
 
+
 # Assento
 INSERT INTO assento VALUES(1, "A", 1, "Bem conservado", True, 1);
 INSERT INTO assento VALUES(2, "F", 1, "Pequenos rasgos no encosto", False, 1);
 INSERT INTO assento VALUES(3, "F", 2, "Range constantemente", False, 4);
 INSERT INTO assento VALUES(4, "C", 5, "Bem conservado", True, 4);
 INSERT INTO assento VALUES(5, "G", 7, "Bem conservado", True, 4);
+
 
 # Filme
 INSERT INTO filme VALUES(1, "A Outra História Americana", 1998, "Tony Kaye", LOAD_FILE("/var/lib/mysql-files/american-history-x.jpg"), 119, "Edward Norton, Fairuza Balk, Avery Brooks etc.", "Crime/Drama", "Derek (Edward Norton) busca vazão para suas agruras tornando-se líder de uma gangue de racistas. A violência o leva a um assassinato, e ele é condenado pelo crime. Três anos mais tarde, ele sai da prisão e tem que convencer seu irmão (Edward Furlong), que está prestes a assumir a liderança do grupo, a não trilhar o mesmo caminho.");
@@ -157,6 +161,7 @@ INSERT INTO filme VALUES(3, "O Homem que Copiava", 2003, "Jorge Furtado", LOAD_F
 INSERT INTO filme VALUES(4, "Triângulo do Medo", 2009, "Christopher Smith", LOAD_FILE("/var/lib/mysql-files/triangulo-do-medo.jpg"), 99, "Melissa George, Liam Hemsworth, Michael Dorman etc.", "Horror/Suspense", "Quando Jess embarca em um veleiro com um grupo de amigos para o alto mar, ela tem o pressentimento de algo está errado. Sua suspeita se realiza quando eles vão parar no meio de uma tempestade e para sobreviverem, todos são forçados a embarcar em um misterioso e aparentemente desocupado transatlântico. Ao caminhar pelos corredores, Jess tem a sensação de que já esteve no local antes e repara que o relógio do navio está parado. Estranhas coisas começam a acontecer e eles percebem que não estão sozinhos: alguém está caçando-os, um por um, e Jess, sem saber, está com a chave para encerrar todo esse terror.");
 INSERT INTO filme VALUES(5, "Réquiem para um Sonho", 2000, "Darren Aronofsky", LOAD_FILE("/var/lib/mysql-files/requiem-para-um-sonho.jpg"), 102, "Jennifer Connelly, Jared Leto, Marlon Wayans etc.", "Drama/Terror psicológico", "Uma visão frenética, perturbada e única sobre pessoas que vivem em desespero e ao mesmo tempo cheio de sonhos. Harry Goldfarb (Jared Leto) e Marion Silver (Jennifer Connelly) formam um casal apaixonado, que tem como sonho montar um pequeno negócio e viverem felizes para sempre. Porém, ambos são viciados em heroína, o que faz com que repetidamente Harry penhore a televisão de sua mãe (Ellen Burstyn), para conseguir dinheiro. Já Sara, mãe de Harry, viciada em assistir programas de TV. Até que um dia recebe um convite para participar do seu show favorito, o 'Tappy Tibbons Show', que transmitido para todo o país. Para poder vestir seu vestido predileto, Sara começa a tomar pílulas de emagrecimento, receitadas por seu médico. Só que, aos poucos, Sara começa a tomar cada vez mais pílulas até se tornar uma viciada neste medicamento.");
 
+
 # Exibição
 INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(1, 1, 1, "Português", "N/A", "2021-10-18", "15:00:00");
 INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(2, 2, 1, "Inglês", "Português", "2021-10-19", "15:00:00");
@@ -164,12 +169,14 @@ INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, ho
 INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(4, 4, 5, "Português", "Inglês", "2021-10-22", "22:10:00");
 INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(5, 5, 4, "Português", "Inglês", "2021-10-21", "14:00:00");
 
+
 # Reserva
 INSERT INTO reserva(codigo, codigo_exibicao, codigo_cliente, codigo_administrador, data, hora) VALUES(1, 1, "788.325.518-53", "819.166.051-25", "2021-10-18", "16:03:31");
 INSERT INTO reserva(codigo, codigo_exibicao, codigo_cliente, codigo_administrador, data, hora) VALUES(2, 2, "194.613.624-71", "819.166.051-25", "2021-10-18", "08:05:13");
 INSERT INTO reserva(codigo, codigo_exibicao, codigo_cliente, codigo_administrador, data, hora) VALUES(3, 3, "194.613.624-71", "819.166.051-25", "2021-10-20", "17:03:47");
 INSERT INTO reserva(codigo, codigo_exibicao, codigo_cliente, codigo_administrador, data, hora) VALUES(4, 4, "095.354.581-40", "819.166.051-25", "2021-10-18", "16:13:31");
 INSERT INTO reserva(codigo, codigo_exibicao, codigo_cliente, codigo_administrador, data, hora) VALUES(5, 5, "095.354.581-40", "819.166.051-25", "2021-10-18", "20:40:33");
+
 
 # Artigo
 INSERT INTO artigo(codigo, titulo, texto, imagem, autor) VALUES (1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Imperdiet nulla malesuada pellentesque elit. Faucibus ornare suspendisse sed nisi lacus sed. Sit amet nisl suscipit adipiscing. Malesuada bibendum arcu vitae elementum curabitur vitae nunc sed. Arcu odio ut sem nulla pharetra. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Nulla pellentesque dignissim enim sit amet venenatis urna. Fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate.", LOAD_FILE("/var/lib/mysql-files/imagem-artigo.png"), "799.062.168-16");

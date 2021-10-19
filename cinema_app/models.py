@@ -27,18 +27,18 @@ class Filme(models.Model):
         return "{}, {}".format(self.nome, self.ano_lancamento)
 
 class Sala(models.Model):
-    numero_assentos = models.IntegerField(default=0)
-    saida_emergencia = models.BooleanField()
+    numero_assentos = models.IntegerField(default=0, verbose_name='Número de assentos')
+    saida_emergencia = models.BooleanField(verbose_name='Saída de emergência (sim ou não)')
 
     def __str__(self):
         return "Código {}, {} assentos".format(self.id, self.numero_assentos)
 
 class Exibicao(models.Model):
-    codigo_filme = models.ForeignKey(Filme, models.SET_NULL, blank=True, null=True)
-    codigo_sala = models.ForeignKey(Sala, models.SET_NULL, blank=True, null=True)
+    codigo_filme = models.ForeignKey(Filme, models.SET_NULL, blank=True, null=True, verbose_name='Filme')
+    codigo_sala = models.ForeignKey(Sala, models.SET_NULL, blank=True, null=True, verbose_name='Sala')
     #codigo_administrador = models.ForeignKey(Administrador, models.SET_NULL, blank=True, null=True)
-    data = models.DateField(default=django.utils.timezone.now)
-    hora = models.TimeField(default=django.utils.timezone.now)
+    data = models.DateField(default=django.utils.timezone.now, verbose_name='Data')
+    hora = models.TimeField(default=django.utils.timezone.now, verbose_name='Hora')
 
     def __str__(self):
         return "{} {} {}".format(self.codigo_filme, self.data, self.hora)
