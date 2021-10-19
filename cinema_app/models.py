@@ -14,14 +14,14 @@ class Administrador(models.Model):
         return "{}, {}".format(self.nome, self.cpf)
 
 class Filme(models.Model):
-    nome = models.CharField(max_length=200)
-    ano_lancamento = models.IntegerField(   )
-    nome_diretor = models.CharField(max_length=200)
-    poster_img = models.CharField(max_length=200)
-    duracao_min = models.IntegerField()
-    elenco = models.CharField(max_length=100)
-    genero = models.CharField(max_length=50)
-    sinopse = models.CharField(max_length=200)
+    nome = models.CharField(max_length=200, verbose_name='Nome do filme')
+    ano_lancamento = models.IntegerField(verbose_name='Ano de lançamento')
+    nome_diretor = models.CharField(max_length=200, verbose_name='Nome do Diretor')
+    poster_img = models.CharField(max_length=200, verbose_name='Imagem do pôster')
+    duracao_min = models.IntegerField(verbose_name='Duração em minutos')
+    elenco = models.CharField(max_length=100, verbose_name='Elenco Principal')
+    genero = models.CharField(max_length=50, verbose_name='Gênero')
+    sinopse = models.CharField(max_length=200, verbose_name='Sinopse')
 
     def __str__(self):
         return "{}, {}".format(self.nome, self.ano_lancamento)

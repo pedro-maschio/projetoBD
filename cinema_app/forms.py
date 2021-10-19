@@ -17,7 +17,7 @@ class FilmeForm(forms.ModelForm):
         self.fields['duracao_min'].widget.attrs.update({'class': 'form-control'})
         self.fields['elenco'].widget.attrs.update({'class': 'form-control'})
         self.fields['genero'].widget.attrs.update({'class': 'form-control'})
-        self.fields['sinopse'].widget.attrs.update({'class': 'form-control'})
+        self.fields['sinopse'].widget.attrs.update({'class': 'form-control d-block mb-2'})
 
 
 class SalaForm(forms.ModelForm):
@@ -28,7 +28,7 @@ class SalaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(SalaForm, self).__init__(*args, **kwargs)
         self.fields['numero_assentos'].widget.attrs.update({'class': 'form-control'}) 
-        self.fields['saida_emergencia'].widget.attrs.update({'class': 'form-check-input'})
+        self.fields['saida_emergencia'].widget.attrs.update({'class': 'form-check-input d-block mb-2'})
 
 class ExibicaoForm(forms.ModelForm):
     class Meta:
@@ -40,5 +40,5 @@ class ExibicaoForm(forms.ModelForm):
         self.fields['codigo_filme'].widget.attrs.update({'class': 'form-control'}) 
         self.fields['codigo_sala'].widget.attrs.update({'class': 'form-control'}) 
         #self.fields['codigo_administrador'].widget.attrs.update({'class': 'form-control'}) 
-        self.fields['data'].widget.attrs.update({'class': 'form-control'}) 
-            
+        self.fields['data'].widget.attrs.update({'class': 'form-control d-block'}) 
+        self.fields['hora'].widget.attrs.update({'class': 'form-control d-block mb-2'}) 
