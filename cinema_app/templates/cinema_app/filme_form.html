@@ -1,19 +1,19 @@
 {% extends "cinema_app/base.html" %}
 {% block content %}
-<form action="" method="POST" autocomplete="off">
+<form action="" method="POST" autocomplete="off" enctype="multipart/form-data">
     {% csrf_token %}
-    
+
 
 
         {{form}}
-  
+
         <button type="submit" class="btn btn-primary"><i class="fas fa-database"></i>Salvar</button>
-        
+
         <a type="button" href="{% url 'filme_list' %}" class="btn btn-secondary btn-block">
             <i class="fas fa-stream"></i>Voltar
-        </a>  
+        </a>
 </form>
-  
+
 
 
 {% endblock content %}

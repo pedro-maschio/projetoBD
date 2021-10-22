@@ -20,4 +20,9 @@ urlpatterns = [
     path('exibicao/', views.exibicao_form, name='exibicao_insert'),
     path('exibicao/delete/<int:exibicao_id>/', views.exibicao_delete, name='exibicao_delete'),
 
+    path('artigos/', views.artigo_list, name='artigo_list'),
+    path('artigo/<int:artigo_id>/', views.artigo_form, name='artigo_update'),
+    path('artigo/', views.artigo_form, name='artigo_insert'),
+    path('artigo/delete/<int:artigo_id>/', views.artigo_delete, name='artigo_delete'),
+
 ]

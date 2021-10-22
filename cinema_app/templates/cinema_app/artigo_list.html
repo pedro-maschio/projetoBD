@@ -1,0 +1,45 @@
+{% extends "cinema_app/base.html" %}
+
+{% block content %}
+
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Titulo</td>
+            <td>Texto</td>
+            <!-- <td>Administrador</td> -->
+            <td>Imagem</td>
+            <td>Author</td>
+            <td>
+                <a href="{% url 'artigo_insert'%}" class="btn btn-outline-success">
+                <i class="fas fa-plus"></i> Cadastrar novo artigo
+            </a>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for artigo in artigo_list %}
+            <tr>
+                <td>{{artigo.titulo}}</td>
+                <td>{{artigo.texto}}</td>
+                <!-- <td>{{exibicao.codigo_administrador}}</td> -->
+                <td>{{artigo.artigo_img}}</td>
+                <td>{{artigo.author}}</td>
+                <td>
+                    <a href="{% url 'artigo_update' artigo.id %}" class="btn text-secondary px-0">
+                        <i class="far fa-edit fa-lg"></i>
+                    </a>
+                    <form action="{% url 'artigo_delete' artigo.id %}" method='POST' class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">
+                            <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                        </button>
+                    </form>
+
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}
