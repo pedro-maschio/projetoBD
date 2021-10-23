@@ -175,7 +175,7 @@ INSERT INTO reserva(codigo, codigo_exibicao, codigo_cliente, codigo_administrado
 INSERT INTO reserva(codigo, codigo_exibicao, codigo_cliente, codigo_administrador, data, hora) VALUES(2, 2, "194.613.624-71", "819.166.051-25", "2021-10-18", "08:05:13");
 INSERT INTO reserva(codigo, codigo_exibicao, codigo_cliente, codigo_administrador, data, hora) VALUES(3, 3, "194.613.624-71", "819.166.051-25", "2021-10-20", "17:03:47");
 INSERT INTO reserva(codigo, codigo_exibicao, codigo_cliente, codigo_administrador, data, hora) VALUES(4, 4, "095.354.581-40", "819.166.051-25", "2021-10-18", "16:13:31");
-INSERT INTO reserva(codigo, codigo_exibicao, codigo_cliente, codigo_administrador, data, hora) VALUES(5, 5, "095.354.581-40", "819.166.051-25", "2021-10-18", "20:40:33");
+INSERT INTO reserva(codigo, codigo_exibicao, codigo_cliente, codigo_administrador, data, hora) VALUES(5, 5, "095.354.581-40", "819.166.051-25", "2021-10-25", "20:40:33");
 
 
 # Artigo
@@ -193,7 +193,39 @@ INSERT INTO avaliacao(codigo, nota, comentario, filme_codigo, cliente_codigo) VA
 INSERT INTO avaliacao(codigo, nota, comentario, filme_codigo, cliente_codigo) VALUES(4, 3, "Filme Muito Ruim", 4, "788.325.518-53");
 INSERT INTO avaliacao(codigo, nota, comentario, filme_codigo, cliente_codigo) VALUES(5, 10, "Excelente Filme", 5, "095.354.581-40");
 
-# Uma view
+# Uma view que exibe todos os filmes em exibição no período noturno
 
 CREATE VIEW filmes_noturnos AS
-	SELECT * FROM exibicao WHERE exibicao.codigo_filme
+    SELECT 
+        *
+    FROM
+        exibicao
+    WHERE
+        exibicao.horario >= '18:00:00';
+    
+SELECT 
+    *
+FROM
+    filmes_noturnos;
+
+
+# Procedure reserva_em_intervalo permite obter todas as reservas realizadas por um cliente entre duas datas.
+# pode ser útil para criar uma página de histórico no perfil do cliente, por exemplo.
+
+DELIMITER $$
+CREATE PROCEDURE reserva_em_intervalo(IN quantidade INT, IN codigo_cliente VARCHAR(15), IN data_inicial DATE, IN data_final DATE)
+BEGIN
+	SELECT 
+    *
+FROM
+    reserva
+WHERE
+    reserva.codigo_cliente = codigo_cliente
+        AND reserva.data >= data_inicial
+        AND reserva.data <= data_final;
+END $$
+DELIMITER ;
+
+# Chamada
+CALL reserva_em_intervalo(3, "095.354.581-40", "2021-10-18", "2021-10-25");
+    
