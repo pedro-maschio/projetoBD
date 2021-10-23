@@ -20,7 +20,7 @@ CREATE TABLE cinema (
     codigo_admin VARCHAR(15) NOT NULL,
     FOREIGN KEY (codigo_admin)
         REFERENCES administrador (cpf)
-);
+);	
 
 CREATE TABLE cliente (
     nome VARCHAR(100) NOT NULL,
@@ -164,7 +164,7 @@ INSERT INTO filme VALUES(5, "Réquiem para um Sonho", 2000, "Darren Aronofsky", 
 
 # Exibição
 INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(1, 1, 1, "Português", "N/A", "2021-10-18", "15:00:00");
-INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(2, 2, 1, "Inglês", "Português", "2021-10-19", "15:00:00");
+INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(2, 1, 1, "Inglês", "Português", "2021-10-19", "15:00:00");
 INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(3, 3, 2, "Francês", "Português", "2021-10-20", "19:15:00");
 INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(4, 4, 5, "Português", "Inglês", "2021-10-22", "22:10:00");
 INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(5, 5, 4, "Português", "Inglês", "2021-10-21", "14:00:00");
@@ -192,3 +192,8 @@ INSERT INTO avaliacao(codigo, nota, comentario, filme_codigo, cliente_codigo) VA
 INSERT INTO avaliacao(codigo, nota, comentario, filme_codigo, cliente_codigo) VALUES(3, 7, "Excelente Filme", 2, "830.701.851-00");
 INSERT INTO avaliacao(codigo, nota, comentario, filme_codigo, cliente_codigo) VALUES(4, 3, "Filme Muito Ruim", 4, "788.325.518-53");
 INSERT INTO avaliacao(codigo, nota, comentario, filme_codigo, cliente_codigo) VALUES(5, 10, "Excelente Filme", 5, "095.354.581-40");
+
+# Uma view
+
+CREATE VIEW filmes_noturnos AS
+	SELECT * FROM exibicao WHERE exibicao.codigo_filme
