@@ -6,7 +6,7 @@
     <thead class="border-bottom font-weight-bold">
         <tr>
             <td>Número de assentos</td>
-            <td>Saída de emergência</td>
+    
             <td>
                 <a href="{% url 'sala_insert'%}" class="btn btn-outline-success">
                 <i class="fas fa-plus"></i> Cadastrar nova Sala
@@ -18,7 +18,7 @@
         {% for sala in sala_list %}
             <tr>
                 <td>{{sala.numero_assentos}}</td>
-                <td>{{sala.saida_emergencia}}</td>
+              
                 <td>
                     <a href="{% url 'sala_update' sala.id %}" class="btn text-secondary px-0">
                         <i class="far fa-edit fa-lg"></i>

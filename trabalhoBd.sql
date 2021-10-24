@@ -106,11 +106,11 @@ CREATE TABLE avaliacao (
     codigo INT PRIMARY KEY NOT NULL,
     nota INT NOT NULL,
     comentario VARCHAR(255),
-    filme_codigo INT NOT NULL,
-    cliente_codigo VARCHAR(14) NOT NULL,
-    FOREIGN KEY (filme_codigo)
+    codigo_filme INT NOT NULL,
+    codigo_cliente VARCHAR(14) NOT NULL,
+    FOREIGN KEY (codigo_filme)
         REFERENCES filme (codigo),
-    FOREIGN KEY (cliente_codigo)
+    FOREIGN KEY (codigo_cliente)
         REFERENCES cliente (cpf)
 );
 
@@ -187,11 +187,11 @@ INSERT INTO artigo(codigo, titulo, texto, imagem, autor) VALUES (5, "Lorem ipsum
 
 
 # Avaliação
-INSERT INTO avaliacao(codigo, nota, comentario, filme_codigo, cliente_codigo) VALUES(1, 10, "Excelente Filme", 1, "788.325.518-53");
-INSERT INTO avaliacao(codigo, nota, comentario, filme_codigo, cliente_codigo) VALUES(2, 8, "Excelente Filme", 1, "194.613.624-71");
-INSERT INTO avaliacao(codigo, nota, comentario, filme_codigo, cliente_codigo) VALUES(3, 7, "Excelente Filme", 2, "830.701.851-00");
-INSERT INTO avaliacao(codigo, nota, comentario, filme_codigo, cliente_codigo) VALUES(4, 3, "Filme Muito Ruim", 4, "788.325.518-53");
-INSERT INTO avaliacao(codigo, nota, comentario, filme_codigo, cliente_codigo) VALUES(5, 10, "Excelente Filme", 5, "095.354.581-40");
+INSERT INTO avaliacao(codigo, nota, comentario, codigo_filme, codigo_cliente) VALUES(1, 10, "Excelente Filme", 1, "788.325.518-53");
+INSERT INTO avaliacao(codigo, nota, comentario, codigo_filme, codigo_cliente) VALUES(2, 8, "Excelente Filme", 1, "194.613.624-71");
+INSERT INTO avaliacao(codigo, nota, comentario, codigo_filme, codigo_cliente) VALUES(3, 7, "Excelente Filme", 2, "830.701.851-00");
+INSERT INTO avaliacao(codigo, nota, comentario, codigo_filme, codigo_cliente) VALUES(4, 3, "Filme Muito Ruim", 4, "788.325.518-53");
+INSERT INTO avaliacao(codigo, nota, comentario, codigo_filme, codigo_cliente) VALUES(5, 10, "Excelente Filme", 5, "095.354.581-40");
 
 # Uma view que exibe todos os filmes em exibição no período noturno
 
