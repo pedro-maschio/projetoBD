@@ -11,7 +11,9 @@ from .models import Filme, Sala, Exibicao, Artigo
 
 def pagina_principal(request):
     list = islice(Artigo.objects.all(), 3)
-    context = {'filme_list': Filme.objects.all(), 'artigo_list':Artigo.objects.all()}
+    FilmeList = Filme.objects.all()
+    ArtigoList = Artigo.objects.all()
+    context = {'filme_list':FilmeList[:4] , 'artigo_list':ArtigoList[:3]}
 
     return render(request, 'cinema_app/pagina_principal.html', context)
 
