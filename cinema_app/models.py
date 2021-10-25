@@ -12,7 +12,7 @@ class Filme(models.Model):
     poster_img = models.ImageField(upload_to='images/', verbose_name="Imagem do filme")
     duracao_min = models.IntegerField(verbose_name="Duração em minutos")
     elenco = models.CharField(max_length=100, verbose_name="Elenco")
-    genero = models.CharField(max_length=50, verbose_name="Elenco")
+    genero = models.CharField(max_length=50, verbose_name="Gênero")
     sinopse = models.CharField(max_length=200, verbose_name="Sinopse")
 
     def __str__(self):
