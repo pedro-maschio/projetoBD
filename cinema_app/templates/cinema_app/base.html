@@ -37,6 +37,18 @@
               </li>
 
             </ul>
+
+            {% if user.is_authenticated %}
+            <ul class="navbar-nav mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="btn btn-outline-primary mr-10" href="/login/">Olá, {{user.username}}!</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-outline-secondary" href="/logout/">Sair</a>
+              </li>
+            </ul>
+            {% else %}
+           
             <ul class="navbar-nav mb-2 mb-lg-0">
               <li class="nav-item">
                 <a class="btn btn-outline-primary mr-10" href="/login/">Login</a>
@@ -45,6 +57,7 @@
                 <a class="btn btn-outline-secondary" href="/register/">Criar conta</a>
               </li>
             </ul>
+            {% endif %}
             <!-- <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
@@ -60,12 +73,10 @@
                 <h1 class="display-4">CRUD Cinema</h1>
 
                 <hr class="my-4">
-              
-        
-              {%block content %}
-              {% endblock content %}
-
-
+          
+                {%block content %}
+                {% endblock content %}
+ 
 
               </div>
         </div>
