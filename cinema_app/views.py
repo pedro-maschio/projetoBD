@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from itertools import islice
 
+from django.contrib.auth.decorators import login_required
+
 from cinema_app.forms import ExibicaoForm, FilmeForm, SalaForm, ArtigoForm
 from .models import Filme, Sala, Exibicao, Artigo
 
@@ -16,6 +18,7 @@ def pagina_principal(request):
 
 # CRUD de Filmes
 
+@login_required
 def filme_form(request, filme_id=-1):
 
     if request.method == 'GET':
@@ -37,11 +40,13 @@ def filme_form(request, filme_id=-1):
 
         return HttpResponseRedirect('/filmes')
 
+@login_required
 def filme_list(request):
     context = {'filme_list': Filme.objects.all()}
 
     return render(request, 'cinema_app/filme_list.html', context)
 
+@login_required
 def filme_delete(request, filme_id=-1):
     if filme_id != -1:
         filme = Filme.objects.get(pk=filme_id)
@@ -52,11 +57,13 @@ def filme_delete(request, filme_id=-1):
 
 # CRUD de Salas
 
+@login_required
 def sala_list(request):
     context = {'sala_list': Sala.objects.all()}
 
     return render(request, 'cinema_app/sala_list.html', context)
 
+@login_required
 def sala_form(request, sala_id=-1):
     if request.method == 'GET':
         if sala_id == -1: # está mostrando a tela de cadastro
@@ -77,6 +84,7 @@ def sala_form(request, sala_id=-1):
 
         return HttpResponseRedirect('/salas')
 
+@login_required
 def sala_delete(request, sala_id=-1):
     if sala_id != -1:
         sala = Sala.objects.get(pk=sala_id)
@@ -87,11 +95,13 @@ def sala_delete(request, sala_id=-1):
 
 # CRUD de Exibições
 
+@login_required
 def exibicao_list(request):
     context = {'exibicao_list': Exibicao.objects.all()}
 
     return render(request, 'cinema_app/exibicao_list.html', context)
 
+@login_required
 def exibicao_form(request, exibicao_id=-1):
     if request.method == 'GET':
         if exibicao_id == -1: # está mostrando a tela de cadastro
@@ -112,6 +122,7 @@ def exibicao_form(request, exibicao_id=-1):
 
         return HttpResponseRedirect('/exibicoes')
 
+@login_required
 def exibicao_delete(request, exibicao_id=-1):
     if exibicao_id != -1:
         exibicao = Exibicao.objects.get(pk=exibicao_id)
@@ -121,11 +132,13 @@ def exibicao_delete(request, exibicao_id=-1):
 
 #CRUD de Artigo
 
+@login_required
 def artigo_list(request):
     context = {'artigo_list': Artigo.objects.all()}
 
     return render(request, 'cinema_app/artigo_list.html', context)
 
+@login_required
 def artigo_form(request, artigo_id=-1):
     if request.method == 'GET':
         if artigo_id == -1: # está mostrando a tela de cadastro
@@ -145,7 +158,7 @@ def artigo_form(request, artigo_id=-1):
             form.save()
         return HttpResponseRedirect('/artigos')
 
-
+@login_required
 def artigo_delete(request, artigo_id=-1):
     if artigo_id != -1:
         exibicao = Artigo.objects.get(pk=artigo_id)
