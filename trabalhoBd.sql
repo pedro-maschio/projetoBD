@@ -66,6 +66,7 @@ CREATE TABLE exibicao (
     codigo INT PRIMARY KEY NOT NULL,
     codigo_filme INT NOT NULL,
     codigo_sala INT NOT NULL,
+    codigo_cinema VARCHAR(18),
     audio VARCHAR(50) NOT NULL,
     legenda VARCHAR(50) NOT NULL,
     data DATE NOT NULL,
@@ -73,7 +74,9 @@ CREATE TABLE exibicao (
     FOREIGN KEY (codigo_filme)
         REFERENCES filme (codigo),
     FOREIGN KEY (codigo_sala)
-        REFERENCES sala (codigo)
+        REFERENCES sala (codigo),
+	FOREIGN KEY (codigo_cinema)
+		REFERENCES cinema(cnpj)
 );
 
 
@@ -163,11 +166,11 @@ INSERT INTO filme VALUES(5, "Réquiem para um Sonho", 2000, "Darren Aronofsky", 
 
 
 # Exibição
-INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(1, 1, 1, "Português", "N/A", "2021-10-18", "15:00:00");
-INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(2, 1, 1, "Inglês", "Português", "2021-10-19", "15:00:00");
-INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(3, 3, 2, "Francês", "Português", "2021-10-20", "19:15:00");
-INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(4, 4, 5, "Português", "Inglês", "2021-10-22", "22:10:00");
-INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, audio, legenda, data, horario) VALUES(5, 5, 4, "Português", "Inglês", "2021-10-21", "14:00:00");
+INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, codigo_cinema, audio, legenda, data, horario) VALUES(1, 1, 1, "18.236.582/0001-75", "Português", "N/A", "2021-10-18", "15:00:00");
+INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, codigo_cinema, audio, legenda, data, horario) VALUES(2, 1, 1, "35.658.462/0001-85", "Inglês", "Português", "2021-10-19", "15:00:00");
+INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, codigo_cinema, audio, legenda, data, horario) VALUES(3, 3, 2, "91.106.222/0001-49", "Francês", "Português", "2021-10-20", "19:15:00");
+INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, codigo_cinema, audio, legenda, data, horario) VALUES(4, 4, 5, "91.106.222/0001-49", "Português", "Inglês", "2021-10-22", "22:10:00");
+INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, codigo_cinema, audio, legenda, data, horario) VALUES(5, 5, 4, "35.658.462/0001-85", "Português", "Inglês", "2021-10-21", "14:00:00");
 
 
 # Reserva
@@ -227,5 +230,5 @@ END $$
 DELIMITER ;
 
 # Chamada
-CALL reserva_em_intervalo(3, "095.354.581-40", "2021-10-18", "2021-10-25");
+#CALL reserva_em_intervalo(3, "095.354.581-40", "2021-10-18", "2021-10-25");
     

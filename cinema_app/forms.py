@@ -41,6 +41,7 @@ class ExibicaoForm(forms.ModelForm):
         self.fields['audio'].widget.attrs.update({'class': 'form-control'})
         self.fields['legenda'].widget.attrs.update({'class': 'form-control'})
         self.fields['data'].widget.attrs.update({'class': 'form-control d-block'})
+        
         self.fields['hora'].widget.attrs.update({'class': 'form-control d-block mb-2'})
 
 class ArtigoForm(forms.ModelForm):
