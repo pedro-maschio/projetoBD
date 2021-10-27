@@ -216,7 +216,7 @@ def cinema_form(request, cinema_id=-1):
 @login_required
 def cinema_delete(request, cinema_id=-1):
     if cinema_id != -1:
-        cinema= Cinema.objects.get(pk=artigo_id)
+        cinema= Cinema.objects.get(pk=cinema_id)
         cinema.delete()
 
     return HttpResponseRedirect('/cinemas')

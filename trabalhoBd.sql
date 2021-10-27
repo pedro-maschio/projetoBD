@@ -1,6 +1,8 @@
 CREATE DATABASE IF NOT EXISTS trabalho_bd;
 use trabalho_bd;
 
+
+
 CREATE TABLE administrador (
     nome VARCHAR(100) NOT NULL,
     cpf VARCHAR(14) PRIMARY KEY NOT NULL,
