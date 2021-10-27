@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from itertools import islice
 
+import base64 # teste upload imagem
+
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
@@ -39,7 +41,11 @@ def filme_form(request, filme_id=-1):
             form = FilmeForm(request.POST, request.FILES, instance=filme)
 
         if form.is_valid():
-            form.save()
+            imagem = request.FILES['poster_img'].read()
+            new_form = form.save(commit=False)
+            new_form.poster_img_blob = base64.b64encode(imagem)
+            
+            new_form.save()
 
         return HttpResponseRedirect('/filmes')
 
