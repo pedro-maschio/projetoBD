@@ -54,7 +54,7 @@ def filme_form(request, filme_id=-1, filme_nome=""):
 def filme_list(request, filme_nome=""):
    
     if request.GET.get('filme_nome') != None:
-        filmes = Filme.objects.filter(nome__icontains=request.GET.get('filme_nome'))
+        filmes = Filme.objects.raw("SELECT * FROM filme WHERE nome LIKE \'%%{}%%\'".format(request.GET.get('filme_nome')))
     else:
         filmes= Filme.objects.all()
 
