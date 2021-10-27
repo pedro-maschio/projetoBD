@@ -41,9 +41,10 @@ def filme_form(request, filme_id=-1):
             form = FilmeForm(request.POST, request.FILES, instance=filme)
 
         if form.is_valid():
-            imagem = request.FILES['poster_img'].read()
             new_form = form.save(commit=False)
-            new_form.poster_img_blob = base64.b64encode(imagem)
+            if(len(request.FILES) != 0):
+                imagem = request.FILES['poster_img'].read()
+                new_form.poster_img_blob = base64.b64encode(imagem)
             
             new_form.save()
 

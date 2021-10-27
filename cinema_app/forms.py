@@ -32,12 +32,13 @@ class SalaForm(forms.ModelForm):
 class ExibicaoForm(forms.ModelForm):
     class Meta:
         model = Exibicao
-        fields = ('codigo_filme', 'codigo_sala', 'audio', 'legenda', 'data', 'hora')
+        fields = ('codigo_filme', 'codigo_sala', 'codigo_cinema', 'audio', 'legenda', 'data', 'hora')
 
     def __init__(self, *args, **kwargs):
         super(ExibicaoForm, self).__init__(*args, **kwargs)
         self.fields['codigo_filme'].widget.attrs.update({'class': 'form-control'})
         self.fields['codigo_sala'].widget.attrs.update({'class': 'form-control'})
+        self.fields['codigo_cinema'].widget.attrs.update({'class': 'form-control'})
         #self.fields['codigo_administrador'].widget.attrs.update({'class': 'form-control'})
         self.fields['audio'].widget.attrs.update({'class': 'form-control'})
         self.fields['legenda'].widget.attrs.update({'class': 'form-control'})
@@ -63,7 +64,7 @@ class CinemaForm(forms.ModelForm):
         fields = ('nome','cnpj', 'numero', 'cep','estado','cidade','endereco','codigo_admin')
 
     def __init__(self, *args, **kwargs):
-        super(ArtigoForm, self).__init__(*args, **kwargs)
+        super(CinemaForm, self).__init__(*args, **kwargs)
         self.fields['nome'].widget.attrs.update({'class': 'form-control'})
         self.fields['cnpj'].widget.attrs.update({'class': 'form-control'})
         self.fields['numero'].widget.attrs.update({'class': 'form-control'})
