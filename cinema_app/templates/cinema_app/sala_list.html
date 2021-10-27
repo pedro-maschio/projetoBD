@@ -6,7 +6,12 @@
     <thead class="border-bottom font-weight-bold">
         <tr>
             <td>Número de assentos</td>
-    
+            <td>Normal</td>
+            <td>3D</td>
+            <td>Platinum</td>
+            <td>Cinema</td>
+
+
             <td>
                 <a href="{% url 'sala_insert'%}" class="btn btn-outline-success">
                 <i class="fas fa-plus"></i> Cadastrar nova Sala
@@ -18,7 +23,11 @@
         {% for sala in sala_list %}
             <tr>
                 <td>{{sala.numero_assentos}}</td>
-              
+                <td>{{sala.sessao_normal}}</td>
+                <td>{{sala.sessao_3d}}</td>
+                <td>{{sala.sessao_platinum}}</td>
+                <td>{{sala.codigo_cinema}}</td>
+
                 <td>
                     <a href="{% url 'sala_update' sala.id %}" class="btn text-secondary px-0">
                         <i class="far fa-edit fa-lg"></i>
@@ -29,7 +38,7 @@
                             <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
                         </button>
                     </form>
-             
+
                 </td>
             </tr>
         {% endfor %}

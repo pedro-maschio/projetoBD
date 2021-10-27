@@ -4,9 +4,10 @@ from django.http import HttpResponse
 from itertools import islice
 
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
-from cinema_app.forms import ExibicaoForm, FilmeForm, SalaForm, ArtigoForm
-from .models import Filme, Sala, Exibicao, Artigo
+from cinema_app.forms import ExibicaoForm, FilmeForm, SalaForm, ArtigoForm, CinemaForm
+from .models import Filme, Sala, Exibicao, Artigo, Cinema, Avaliacao
 
 
 def pagina_principal(request):
@@ -55,6 +56,16 @@ def filme_delete(request, filme_id=-1):
         filme.delete()
 
     return HttpResponseRedirect('/filmes')
+
+def filme_view(request, filme_id=-1):
+    context = {}
+    if(filme_id != -1):
+        context['filme']= Filme.objects.get(pk=filme_id)
+        context['exibicoes'] = Exibicao.objects.raw("SELECT * FROM cinema_app_exibicao, cinema_app_filme WHERE cinema_app_exibicao.codigo_filme_id = cinema_app_filme.id");
+        context['cinemas'] = Cinema.objects.raw("SELECT * FROM  cinema_app_exibicao , cinema_app_cinema WHERE cinema_app_exibicao.codigo_cinema_id = cinema_app_cinema.id");
+        context['salas'] = Sala.objects.raw("SELECT * FROM cinema_app_exibicao, cinema_app_sala WHERE cinema_app_exibicao.codigo_sala_id = cinema_app_sala.id");
+
+    return render(request, 'cinema_app/filme.html', context)
 
 
 # CRUD de Salas
@@ -163,7 +174,55 @@ def artigo_form(request, artigo_id=-1):
 @login_required
 def artigo_delete(request, artigo_id=-1):
     if artigo_id != -1:
-        exibicao = Artigo.objects.get(pk=artigo_id)
-        artigo_id.delete()
+        artigo = Artigo.objects.get(pk=artigo_id)
+        artigo.delete()
 
     return HttpResponseRedirect('/artigos')
+
+#CRUD do Cinema
+
+@login_required
+def cinema_list(request):
+    context = {'cinema_list': Cinema.objects.all()}
+
+    return render(request, 'cinema_app/cinema_list.html', context)
+
+@login_required
+def cinema_form(request, cinema_id=-1):
+    if request.method == 'GET':
+        if cinema_id == -1: # está mostrando a tela de cadastro
+            form = CinemaForm()
+        else: # está preenchendo um sala
+            cinema = Cinema.objects.get(pk=cinema_id)
+            form = CinemaForm(instance=cinema)
+        return render(request, 'cinema_app/cinema_form.html', {'form': form})
+    else:
+        if cinema_id == -1:
+            form = CinemaForm(request.POST, request.FILES)
+        else:
+            cinema = Cinema.objects.get(pk=cinema_id)
+            form = CinemaForm(request.POST, request.FILES, instance=cinema)
+
+        if form.is_valid():
+            form.save()
+        return HttpResponseRedirect('/cinemas')
+
+@login_required
+def cinema_delete(request, cinema_id=-1):
+    if cinema_id != -1:
+        cinema= Cinema.objects.get(pk=artigo_id)
+        cinema.delete()
+
+    return HttpResponseRedirect('/cinemas')
+
+def avaliar_filme(request):
+    if request.method == 'POST':
+        el_id = request.POST.get('el_id')
+        val = request.POST.get('val')
+
+        aval = Avaliacao.objects.get(id=el_id)
+        aval.nota = val;
+        aval.save()
+
+        return JsonResponse({'success':'true', 'nota': val}, safe=False)
+    return JsonResponse({'success':'false'})

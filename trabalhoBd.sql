@@ -14,13 +14,13 @@ CREATE TABLE cinema (
     nome varchar(50) NOT NULL,
     endereco VARCHAR(50) NOT NULL,
     cep VARCHAR(20) NOT NULL,
-    numero INT NOT NULL,
+    numero VARCHAR(20) NOT NULL,
     cidade VARCHAR(50) NOT NULL,
     estado VARCHAR(50) NOT NULL,
     codigo_admin VARCHAR(15) NOT NULL,
     FOREIGN KEY (codigo_admin)
         REFERENCES administrador (cpf)
-);	
+);
 
 CREATE TABLE cliente (
     nome VARCHAR(100) NOT NULL,
@@ -35,6 +35,9 @@ CREATE TABLE cliente (
 CREATE TABLE sala (
 	codigo INT PRIMARY KEY AUTO_INCREMENT,
     codigo_cinema VARCHAR(18) NOT NULL,
+    sessao_3d BOOL  NOT NULL,
+    sessao_normal BOOL NOT NULL,
+    sessao_platinum BOOL NOT NULL,
     FOREIGN KEY (codigo_cinema)
         REFERENCES cinema (cnpj)
 );
@@ -45,6 +48,7 @@ CREATE TABLE assento (
     numero INT NOT NULL,
     estado_conservacao VARCHAR(100) NOT NULL,
     adaptada BOOL NOT NULL,
+    reservado BOOL NOT NULL,
     codigo_sala INT NOT NULL,
     FOREIGN KEY (codigo_sala)
         REFERENCES sala (codigo)
@@ -141,7 +145,7 @@ INSERT INTO cliente(nome, cpf, email, senha, data_nascimento, sexo, vacinado) VA
 INSERT INTO cliente(nome, cpf, email, senha, data_nascimento, sexo, vacinado) VALUES("Antonio César Gomes", "158.586.433-10", "antonio@gmail.com", "kj9^Wyg36q4$Exsr2", "1991-07-24", "Masculino", True);
 
 
-# Sala        
+# Sala
 INSERT INTO sala(codigo_cinema) VALUES("18.236.582/0001-75");
 INSERT INTO sala(codigo_cinema) VALUES("18.236.582/0001-75");
 INSERT INTO sala(codigo_cinema) VALUES("81.276.435/0001-65");
@@ -199,14 +203,14 @@ INSERT INTO avaliacao(codigo, nota, comentario, codigo_filme, codigo_cliente) VA
 # Uma view que exibe todos os filmes em exibição no período noturno
 
 CREATE VIEW filmes_noturnos AS
-    SELECT 
+    SELECT
         *
     FROM
         exibicao
     WHERE
         exibicao.horario >= '18:00:00';
-    
-SELECT 
+
+SELECT
     *
 FROM
     filmes_noturnos;
@@ -218,7 +222,7 @@ FROM
 DELIMITER $$
 CREATE PROCEDURE reserva_em_intervalo(IN quantidade INT, IN codigo_cliente VARCHAR(15), IN data_inicial DATE, IN data_final DATE)
 BEGIN
-	SELECT 
+	SELECT
     *
 FROM
     reserva
@@ -231,4 +235,3 @@ DELIMITER ;
 
 # Chamada
 #CALL reserva_em_intervalo(3, "095.354.581-40", "2021-10-18", "2021-10-25");
-    

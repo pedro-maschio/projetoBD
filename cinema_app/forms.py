@@ -1,6 +1,6 @@
 from django import forms
 from django.db.models import fields
-from .models import Exibicao, Filme, Sala, Artigo
+from .models import Exibicao, Filme, Sala, Artigo, Cinema
 
 class FilmeForm(forms.ModelForm):
     sinopse = forms.CharField(widget=forms.Textarea)
@@ -22,11 +22,12 @@ class FilmeForm(forms.ModelForm):
 class SalaForm(forms.ModelForm):
     class Meta:
         model = Sala
-        fields = ('numero_assentos', )
+        fields = ('numero_assentos', 'codigo_cinema', 'sessao_normal','sessao_3d','sessao_platinum')
 
     def __init__(self, *args, **kwargs):
         super(SalaForm, self).__init__(*args, **kwargs)
         self.fields['numero_assentos'].widget.attrs.update({'class': 'form-control d-block mb-2'})
+        self.fields['codigo_cinema'].widget.attrs.update({'class': 'form-control'})
 
 class ExibicaoForm(forms.ModelForm):
     class Meta:
@@ -41,7 +42,7 @@ class ExibicaoForm(forms.ModelForm):
         self.fields['audio'].widget.attrs.update({'class': 'form-control'})
         self.fields['legenda'].widget.attrs.update({'class': 'form-control'})
         self.fields['data'].widget.attrs.update({'class': 'form-control d-block'})
-        
+
         self.fields['hora'].widget.attrs.update({'class': 'form-control d-block mb-2'})
 
 class ArtigoForm(forms.ModelForm):
@@ -55,3 +56,19 @@ class ArtigoForm(forms.ModelForm):
         self.fields['artigo_img'].widget.attrs.update({'class': 'form-control'})
         self.fields['titulo'].widget.attrs.update({'class': 'form-control'})
         self.fields['texto'].widget.attrs.update({'class': 'form-control'})
+
+class CinemaForm(forms.ModelForm):
+    class Meta:
+        model = Cinema
+        fields = ('nome','cnpj', 'numero', 'cep','estado','cidade','endereco','codigo_admin')
+
+    def __init__(self, *args, **kwargs):
+        super(ArtigoForm, self).__init__(*args, **kwargs)
+        self.fields['nome'].widget.attrs.update({'class': 'form-control'})
+        self.fields['cnpj'].widget.attrs.update({'class': 'form-control'})
+        self.fields['numero'].widget.attrs.update({'class': 'form-control'})
+        self.fields['cep'].widget.attrs.update({'class': 'form-control'})
+        self.fields['estado'].widget.attrs.update({'class': 'form-control'})
+        self.fields['cidade'].widget.attrs.update({'class': 'form-control'})
+        self.fields['endereco'].widget.attrs.update({'class': 'form-control'})
+        self.fields['codigo_admin'].widget.attrs.update({'class': 'form-control'})

@@ -9,6 +9,7 @@ urlpatterns = [
     path('filme/<int:filme_id>/', views.filme_form, name='filme_update'), # get and post request for updating
     path('filme/', views.filme_form, name='filme_insert'), # get and post request for inserting
     path('filme/delete/<int:filme_id>/', views.filme_delete, name='filme_delete'),
+    path('filmes/<int:filme_id>/', views.filme_view, name='filme_view'),
 
     path('salas/', views.sala_list, name='sala_list'),
     path('sala/<int:sala_id>/', views.sala_form, name='sala_update'),
@@ -25,4 +26,10 @@ urlpatterns = [
     path('artigo/', views.artigo_form, name='artigo_insert'),
     path('artigo/delete/<int:artigo_id>/', views.artigo_delete, name='artigo_delete'),
 
+    path('cinemas/', views.cinema_list, name='cinema_list'),
+    path('cinema/<int:cinema_id>/', views.cinema_form, name='cinema_update'),
+    path('cinema/', views.cinema_form, name='cinema_insert'),
+    path('cinema/delete/<int:cinema_id>/', views.cinema_delete, name='cinema_delete'),
+
+    path('avaliar/', views.avaliar_filme, name='avaliar_filme'),
 ]

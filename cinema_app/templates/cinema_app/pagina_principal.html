@@ -61,7 +61,9 @@
       <div class="row">
         {% for filme in filme_list %}
           <div class="col">
-            <img class="img-tumbnail" src="{{filme.poster_img.url}}" alt="{{filme.nome}}" width="100%">
+            <a href="/filmes/{{filme.id}}/">
+              <img class="img-tumbnail" src="{{filme.poster_img.url}}"  alt="{{filme.nome}}" width="100%">
+            </a>
           </div>
         {% endfor %}
       </div>

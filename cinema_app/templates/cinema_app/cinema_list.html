@@ -1,0 +1,53 @@
+{% extends "cinema_app/base.html" %}
+
+{% block content %}
+
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Nome</td>
+            <td>CNPJ</td>
+            <td>Telefone</td>
+            <td>Número</td>
+            <td>CEP</td>
+            <td>Estado</td>
+            <td>Cidade</td>
+            <td>Endereço</td>
+            <td>Administrador</td>
+
+            <td>
+                <a href="{% url 'cinema_insert'%}" class="btn btn-outline-success">
+                <i class="fas fa-plus"></i> Cadastrar novo Cinema
+            </a>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cinema in cinema_list %}
+            <tr>
+                <td>{{cinema.nome}}</td>
+                <td>{{cinema.cnpj}}</td>
+                <td>{{cinema.numero}}</td>
+                <td>{{cinema.cep}}</td>
+                <td>{{cinema.estado}}</td>
+                <td>{{cinema.cidade}}</td>
+                <td>{{cinema.endereco}}</td>
+                <td>{{cinema.codigo_admin}</td>
+                <td>
+                    <a href="{% url 'cinema_update' cinema.id %}" class="btn text-secondary px-0">
+                        <i class="far fa-edit fa-lg"></i>
+                    </a>
+                    <form action="{% url 'cinema_delete' cinema.id %}" method='POST' class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">
+                            <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                        </button>
+                    </form>
+
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}
