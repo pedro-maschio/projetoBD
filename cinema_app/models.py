@@ -10,6 +10,7 @@ class Filme(models.Model):
     ano_lancamento = models.IntegerField(verbose_name="Ano de lançamento")
     nome_diretor = models.CharField(max_length=200, verbose_name="Nome do diretor")
     poster_img = models.ImageField(upload_to='images/', verbose_name="Imagem do filme")
+    poster_img_blob = models.BinaryField()
     duracao_min = models.IntegerField(verbose_name="Duração em minutos")
     elenco = models.CharField(max_length=100, verbose_name="Elenco")
     genero = models.CharField(max_length=50, verbose_name="Genero")
