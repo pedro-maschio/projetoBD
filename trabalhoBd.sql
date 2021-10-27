@@ -10,7 +10,6 @@ CREATE TABLE administrador (
     senha VARCHAR(255) NOT NULL
 );
 
-
 CREATE TABLE cinema (
     cnpj VARCHAR(18) PRIMARY KEY NOT NULL,
     nome varchar(50) NOT NULL,

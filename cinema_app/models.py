@@ -18,7 +18,7 @@ class Filme(models.Model):
     sinopse = models.CharField(max_length=200, verbose_name="Sinopse")
 
     class Meta:
-        db_table = 'Filme' 
+        db_table = 'filme' 
 
     def __str__(self):
         return "{} ({})".format(self.nome, self.ano_lancamento)
@@ -34,7 +34,7 @@ class Cinema(models.Model):
     codigo_admin = models.ForeignKey(Administrador, models.SET_NULL, blank=True, null=True, verbose_name="Administrador")
 
     class Meta:
-        db_table = 'Cinema' 
+        db_table = 'cinema' 
 
     def __str__(self):
         return " {} - {} ".format(self.nome, self.cidade)
@@ -47,7 +47,7 @@ class Sala(models.Model):
     sessao_platinum = models.BooleanField(verbose_name="Sessão Platinum")
 
     class Meta:
-        db_table = 'Sala' 
+        db_table = 'sala' 
 
     def __str__(self):
         return "Código {} - com {} assentos".format(self.id, self.numero_assentos)
@@ -63,7 +63,7 @@ class Exibicao(models.Model):
     hora = models.TimeField(default=django.utils.timezone.now, verbose_name="Início da exibição")
 
     class Meta:
-        db_table = 'Exibicao' 
+        db_table = 'exibicao' 
 
     def __str__(self):
         return "{} {} {}".format(self.codigo_filme, self.data, self.hora)
@@ -75,7 +75,7 @@ class Artigo(models.Model):
     author = models.ForeignKey(Administrador, models.SET_NULL, blank=True, null=True, verbose_name="Autor")
 
     class Meta:
-        db_table = 'Artigo' 
+        db_table = 'artigo' 
 
 
 class Reserva(models.Model):
@@ -86,7 +86,7 @@ class Reserva(models.Model):
     hora = models.TimeField(default=django.utils.timezone.now, verbose_name="Horário da reserva")
 
     class Meta:
-        db_table = 'Reserva' 
+        db_table = 'reserva' 
 
 class Avaliacao(models.Model):
     nota = models.IntegerField(default=0, validators=[MaxValueValidator(5),MinValueValidator(0),], verbose_name="Nota")
@@ -95,7 +95,7 @@ class Avaliacao(models.Model):
     codigo_cliente = models.ForeignKey(Cliente, models.SET_NULL, blank=True, null=True, verbose_name="Cliente")
 
     class Meta:
-        db_table = 'Avaliacao' 
+        db_table = 'avaliacao' 
 
 # class Assento(models.Model):
 #     models.CharField(max_length = 100, verbose_name="Título")

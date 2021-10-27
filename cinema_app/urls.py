@@ -4,10 +4,10 @@ from . import views
 urlpatterns = [
     path('', views.pagina_principal, name='pagina_principal'),
 
-
     path('filmes/', views.filme_list, name='filme_list'),
-    path('filme/<int:filme_id>/', views.filme_form, name='filme_update'), # get and post request for updating
-    path('filme/', views.filme_form, name='filme_insert'), # get and post request for inserting
+    path('filmes/<str:filme_nome>/', views.filme_list, name='filme_search'),
+    path('filme/<int:filme_id>/', views.filme_form, name='filme_update'), 
+    path('filme/', views.filme_form, name='filme_insert'), 
     path('filme/delete/<int:filme_id>/', views.filme_delete, name='filme_delete'),
     path('filmes/<int:filme_id>/', views.filme_view, name='filme_view'),
 

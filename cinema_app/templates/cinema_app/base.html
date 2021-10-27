@@ -40,16 +40,20 @@
                   <li><a class="dropdown-item" href="/exibicoes">Listar Exibições</a></li>
                   <li><a class="dropdown-item" href="/cinemas">Listar Cinemas</a></li>
                   <li><a class="dropdown-item" href="/artigos">Listar Artigos</a></li>
-                  <li><a class="dropdown-item" href="/salas">Listar Salas</a></li>
                 </ul>
               </li>
 
             </ul>
 
+            <form class="d-flex" method="GET" action="/filmes/">
+              <input class="form-control me-2" type="text" placeholder="Nome de um filme" aria-label="Search" name="filme_nome">
+              <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+
             {% if user.is_authenticated %}
-            <ul class="navbar-nav mb-2 mb-lg-0">
+            <ul class="navbar-nav mb-2 mb-lg-0 d-flex" >
               <li class="nav-item">
-                <a class="btn btn-outline-primary mr-10" href="/login/">Olá, {{user.username}}!</a>
+                <a class="btn btn-outline-primary" href="/login/">Olá, {{user.username}}!</a>
               </li>
               <li class="nav-item">
                 <a class="btn btn-outline-secondary" href="/logout/">Logout</a>
@@ -66,10 +70,7 @@
               </li>
             </ul>
             {% endif %}
-            <!-- <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>-->
+
           </div>
         </div>
       </nav>

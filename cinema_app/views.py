@@ -24,14 +24,14 @@ def pagina_principal(request):
 # CRUD de Filmes
 
 @login_required
-def filme_form(request, filme_id=-1):
-
+def filme_form(request, filme_id=-1, filme_nome=""):
     if request.method == 'GET':
         if filme_id == -1: # está mostrando a tela de cadastro
             form = FilmeForm()
         else: # está preenchendo um filme
             filme = Filme.objects.get(pk=filme_id)
             form = FilmeForm(instance=filme)
+
         return render(request, 'cinema_app/filme_form.html', {'form': form})
     else:
         if filme_id == -1:
@@ -51,8 +51,14 @@ def filme_form(request, filme_id=-1):
         return HttpResponseRedirect('/filmes')
 
 @login_required
-def filme_list(request):
-    context = {'filme_list': Filme.objects.all()}
+def filme_list(request, filme_nome=""):
+   
+    if request.GET.get('filme_nome') != None:
+        filmes = Filme.objects.filter(nome__icontains=request.GET.get('filme_nome'))
+    else:
+        filmes= Filme.objects.all()
+
+    context = {'filme_list': filmes}
 
     return render(request, 'cinema_app/filme_list.html', context)
 
@@ -68,9 +74,9 @@ def filme_view(request, filme_id=-1):
     context = {}
     if(filme_id != -1):
         context['filme']= Filme.objects.get(pk=filme_id)
-        context['exibicoes'] = Exibicao.objects.raw("SELECT * FROM cinema_app_exibicao, cinema_app_filme WHERE cinema_app_exibicao.codigo_filme_id = cinema_app_filme.id");
-        context['cinemas'] = Cinema.objects.raw("SELECT * FROM  cinema_app_exibicao , cinema_app_cinema WHERE cinema_app_exibicao.codigo_cinema_id = cinema_app_cinema.id");
-        context['salas'] = Sala.objects.raw("SELECT * FROM cinema_app_exibicao, cinema_app_sala WHERE cinema_app_exibicao.codigo_sala_id = cinema_app_sala.id");
+        context['exibicoes'] = Exibicao.objects.raw("SELECT * FROM exibicao, filme WHERE exibicao.codigo_filme_id = filme.id");
+        context['cinemas'] = Cinema.objects.raw("SELECT * FROM  exibicao , cinema WHERE exibicao.codigo_cinema_id = cinema.id");
+        context['salas'] = Sala.objects.raw("SELECT * FROM exibicao, sala WHERE exibicao.codigo_sala_id = sala.id");
 
     return render(request, 'cinema_app/filme.html', context)
 

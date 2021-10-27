@@ -22,11 +22,11 @@
     <h1>{{ cinema.nome }}</h1>
 
     {% for sala in salas %}
-    aqui: {{sala.codigo_cinema}}
+    aqui: {{sala.codigo_cinema_id}}
     dps: {{cinema.nome}}
-      {% if sala.codigo_cinema == cinema.nome %}
+      {% if sala.codigo_cinema_id == cinema.id %}
         <p> <h2>{{sala.id}}</h2>
-        {% for exib in exibicoes %}  {% if exib.codigo_sala == sala.id and exib.codigo_cinema == cinema.id %} <h3>{{exib.hora}}</h3> {% endif %} {% endfor %}
+        {% for exib in exibicoes %}  {% if exib.codigo_sala_id == sala.id and exib.codigo_cinema_id == cinema.id %} <h3>{{exib.hora}}</h3> {% endif %} {% endfor %}
         </p>
       {% endif %}
     {% endfor %}
