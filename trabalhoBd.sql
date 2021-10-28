@@ -131,7 +131,7 @@ INSERT INTO administrador(nome, cpf, email, senha) VALUES("Patrícia Beltrão No
 
 
 # Cinema
-INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) VALUES("18.236.582/0001-75", "Cinema Premium", "Rua Fictícia, Quadra 3", "72322-403", 4, "Brasília", "Distrito Federal", "819.166.051-25");
+INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) VALUES("18.236.582/0001-75", "Cinema Premium", "Rua Fictícia, Quadra 3", "72322-403", 4, "Brasília", "Distrito Federal", 1);
 INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) VALUES("35.658.462/0001-85", "Cinema Brasília", "Rua Fictícia, Quadra 4", "73215-000", 0, "Brasília", "Distrito Federal", "819.166.051-25");
 INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) VALUES("81.276.435/0001-65", "Cinema Capital", "Rua Fictícia, Quadra 5", "73005-591", 11, "Brasília", "Distrito Federal", "678.203.532-44");
 INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) VALUES("82.263.132/0001-70", "Cinema Deluxe", "Rua Fictícia, Quadra 6", "74262-009", 9, "Brasília", "Distrito Federal", "678.203.532-44");
@@ -171,7 +171,6 @@ INSERT INTO filme VALUES(3, "O Homem que Copiava", 2003, "Jorge Furtado", LOAD_F
 INSERT INTO filme VALUES(4, "Triângulo do Medo", 2009, "Christopher Smith", LOAD_FILE("/var/lib/mysql-files/triangulo-do-medo.jpg"), 99, "Melissa George, Liam Hemsworth, Michael Dorman etc.", "Horror/Suspense", "Quando Jess embarca em um veleiro com um grupo de amigos para o alto mar, ela tem o pressentimento de algo está errado. Sua suspeita se realiza quando eles vão parar no meio de uma tempestade e para sobreviverem, todos são forçados a embarcar em um misterioso e aparentemente desocupado transatlântico. Ao caminhar pelos corredores, Jess tem a sensação de que já esteve no local antes e repara que o relógio do navio está parado. Estranhas coisas começam a acontecer e eles percebem que não estão sozinhos: alguém está caçando-os, um por um, e Jess, sem saber, está com a chave para encerrar todo esse terror.");
 INSERT INTO filme VALUES(5, "Réquiem para um Sonho", 2000, "Darren Aronofsky", LOAD_FILE("/var/lib/mysql-files/requiem-para-um-sonho.jpg"), 102, "Jennifer Connelly, Jared Leto, Marlon Wayans etc.", "Drama/Terror psicológico", "Uma visão frenética, perturbada e única sobre pessoas que vivem em desespero e ao mesmo tempo cheio de sonhos. Harry Goldfarb (Jared Leto) e Marion Silver (Jennifer Connelly) formam um casal apaixonado, que tem como sonho montar um pequeno negócio e viverem felizes para sempre. Porém, ambos são viciados em heroína, o que faz com que repetidamente Harry penhore a televisão de sua mãe (Ellen Burstyn), para conseguir dinheiro. Já Sara, mãe de Harry, viciada em assistir programas de TV. Até que um dia recebe um convite para participar do seu show favorito, o 'Tappy Tibbons Show', que transmitido para todo o país. Para poder vestir seu vestido predileto, Sara começa a tomar pílulas de emagrecimento, receitadas por seu médico. Só que, aos poucos, Sara começa a tomar cada vez mais pílulas até se tornar uma viciada neste medicamento.");
 
-select * from filme where nome like '%a%';
 
 # Exibição
 INSERT INTO exibicao(codigo, codigo_filme, codigo_sala, codigo_cinema, audio, legenda, data, horario) VALUES(1, 1, 1, "18.236.582/0001-75", "Português", "N/A", "2021-10-18", "15:00:00");
@@ -212,30 +211,30 @@ CREATE VIEW filmes_noturnos AS
     FROM
         exibicao
     WHERE
-        exibicao.horario >= '18:00:00';
+        exibicao.hora >= '18:00:00';
 
 SELECT
     *
 FROM
     filmes_noturnos;
 
+# Chamada
+SELECT * from filmes_noturnos;
 
-# Procedure reserva_em_intervalo permite obter todas as reservas realizadas por um cliente entre duas datas.
-# pode ser útil para criar uma página de histórico no perfil do cliente, por exemplo.
+
+# Procedure que busca exibições em um intervalo de datas
 
 DELIMITER $$
-CREATE PROCEDURE reserva_em_intervalo(IN quantidade INT, IN codigo_cliente VARCHAR(15), IN data_inicial DATE, IN data_final DATE)
+CREATE PROCEDURE exibicao_em_intervalo(IN data_inicial DATE, IN data_final DATE)
 BEGIN
 	SELECT
     *
 FROM
-    reserva
-WHERE
-    reserva.codigo_cliente = codigo_cliente
-        AND reserva.data >= data_inicial
-        AND reserva.data <= data_final;
+    exibicao
+WHERE exibicao.data >= data_inicial
+        AND exibicao.data <= data_final;
 END $$
 DELIMITER ;
 
 # Chamada
-#CALL reserva_em_intervalo(3, "095.354.581-40", "2021-10-18", "2021-10-25");
+CALL exibicao_em_intervalo("2021-10-18", "2021-10-28");
