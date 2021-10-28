@@ -18,7 +18,7 @@ class Filme(models.Model):
     duracao_min = models.IntegerField(verbose_name="Duração em minutos")
     elenco = models.CharField(max_length=100, verbose_name="Elenco")
     genero = models.CharField(max_length=50, verbose_name="Genero")
-    sinopse = models.CharField(max_length=200, verbose_name="Sinopse")
+    sinopse = models.CharField(max_length=2000, verbose_name="Sinopse")
 
     class Meta:
         db_table = 'filme' 
