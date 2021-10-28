@@ -9,7 +9,6 @@ urlpatterns = [
     path('filme/<int:filme_id>/', views.filme_form, name='filme_update'), 
     path('filme/', views.filme_form, name='filme_insert'), 
     path('filme/delete/<int:filme_id>/', views.filme_delete, name='filme_delete'),
-    path('filmes/<int:filme_id>/', views.filme_view, name='filme_view'),
 
     path('salas/', views.sala_list, name='sala_list'),
     path('sala/<int:sala_id>/', views.sala_form, name='sala_update'),
@@ -31,5 +30,7 @@ urlpatterns = [
     path('cinema/', views.cinema_form, name='cinema_insert'),
     path('cinema/delete/<int:cinema_id>/', views.cinema_delete, name='cinema_delete'),
 
+    path('filme/cinemas/<int:filme_id>/', views.filme_view, name='filme_view'),
     path('avaliar/', views.avaliar_filme, name='avaliar_filme'),
+    path('filme/exibicao/<int:exibicao_id>/', views.exibicao_view, name='exibicao_view'),
 ]

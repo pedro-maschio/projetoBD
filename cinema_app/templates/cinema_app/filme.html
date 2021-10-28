@@ -18,6 +18,7 @@
         <div id="confirm-box"></div>
     </dib>
 
+    {% for exib in exibicoes %}  <a href="/filme/exibicao/{{exib.id}}/" class="btn-outline-primary mr-10">{{exib.hora}}</a>  {% endfor %}
   {% for cinema in cinemas %}
     <h1>{{ cinema.nome }}</h1>
 
@@ -26,7 +27,7 @@
     dps: {{cinema.nome}}
       {% if sala.codigo_cinema_id == cinema.id %}
         <p> <h2>{{sala.id}}</h2>
-        {% for exib in exibicoes %}  {% if exib.codigo_sala_id == sala.id and exib.codigo_cinema_id == cinema.id %} <h3>{{exib.hora}}</h3> {% endif %} {% endfor %}
+        {% for exib in exibicoes %}  {% if exib.codigo_sala_id == sala.id and exib.codigo_cinema_id == cinema.id %} <a href="/filme/exibicao/{{filme.id}}/" class="btn-outline-primary mr-10">{{exib.hora}}</a> {% endif %} {% endfor %}
         </p>
       {% endif %}
     {% endfor %}

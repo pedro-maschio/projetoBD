@@ -3,6 +3,9 @@ from django.db.models.deletion import CASCADE
 import django.utils.timezone
 from register.models import Administrador, Cliente
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from .assento_padroes import CINEMA
 
 # Create your models here.
 
@@ -22,6 +25,8 @@ class Filme(models.Model):
 
     def __str__(self):
         return "{} ({})".format(self.nome, self.ano_lancamento)
+
+
 
 class Cinema(models.Model):
     cnpj = models.CharField(max_length = 18, verbose_name="CNPJ")
@@ -97,10 +102,39 @@ class Avaliacao(models.Model):
     class Meta:
         db_table = 'avaliacao' 
 
-# class Assento(models.Model):
-#     models.CharField(max_length = 100, verbose_name="Título")
-#     fileira = models.TextField()
-#     numero = models.ImageField(upload_to='images/')
-#     author = models.ForeignKey(Administrador, models.SET_NULL, blank=True, null=True, verbose_name="Autor")
-#     codigo_sala
-#     estado conservacao
+class Assento(models.Model):
+    fileira = models.IntegerField()
+    numero = models.IntegerField()
+    adaptado = models.BooleanField(verbose_name="Adaptado")
+    estado_conservacao = models.CharField(max_length = 100, verbose_name="Conservação")
+    codigo_cliente = models.ForeignKey(Cliente, models.SET_NULL, blank=True, null=True, verbose_name="Reservado")
+    codigo_sala = models.ForeignKey(Sala, models.SET_NULL, blank=True, null=True, verbose_name="Sala")
+
+    class Meta:
+        db_table = 'assento' 
+    
+
+@receiver(post_save, sender=Sala)
+def criar_assento(sender, instance, created, **kwargs):
+    if created:
+        for row, assentos in enumerate(CINEMA):
+            for col, assento in enumerate(assentos):
+                if assento==2:
+                    Assento.objects.create(codigo_sala=instance, estado_conservacao="bom", fileira=row, numero=col, adaptado=True)
+                elif assento:
+                    Assento.objects.create(codigo_sala=instance, estado_conservacao="bom", fileira=row, numero=col, adaptado=False)
+
+       
+
+
+
+
+# def criar_avaliacao(sender, instance, created, **kwargs):
+#     if created:
+#         Assento.objects.create(codigo_cliente=instance)
+#     post_save.connect(criar_assento, sender=Sala) 
+
+
+ #   status = models.CharField(max_length=20, choices=(('available', 'available'), ('reserved', 'reserved'), ('unavailable', 'unavailable'),), default='Available')
+
+  

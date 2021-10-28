@@ -74,11 +74,23 @@ def filme_view(request, filme_id=-1):
     context = {}
     if(filme_id != -1):
         context['filme']= Filme.objects.get(pk=filme_id)
-        context['exibicoes'] = Exibicao.objects.raw("SELECT * FROM exibicao, filme WHERE exibicao.codigo_filme_id = filme.id");
-        context['cinemas'] = Cinema.objects.raw("SELECT * FROM  exibicao , cinema WHERE exibicao.codigo_cinema_id = cinema.id");
-        context['salas'] = Sala.objects.raw("SELECT * FROM exibicao, sala WHERE exibicao.codigo_sala_id = sala.id");
+        context['exibicoes'] = Exibicao.objects.raw("SELECT * FROM exibicao, filme WHERE exibicao.codigo_filme_id = filme.id")
+        context['cinemas'] = Cinema.objects.raw("SELECT * FROM  exibicao , cinema WHERE exibicao.codigo_cinema_id = cinema.id")
+        context['salas'] = Sala.objects.raw("SELECT * FROM exibicao, sala WHERE exibicao.codigo_sala_id = sala.id")
 
     return render(request, 'cinema_app/filme.html', context)
+
+def exibicao_view(request, exibicao_id=-1):
+    context = {}
+    if(exibicao_id != -1):
+        context['exibicao'] = Exibicao.objects.get(pk=exibicao_id)
+        context['filme']= Exibicao.objects.raw("SELECT * FROM exibicao, filme WHERE exibicao.id = %s and exibicao.codigo_sala_id = filme.id",[exibicao_id])
+        context['sala'] = Sala.objects.raw("SELECT * FROM exibicao, sala WHERE exibicao.id = %s and exibicao.codigo_sala_id = sala.id",[exibicao_id])
+        context['cinema'] = Cinema.objects.raw("SELECT * FROM  exibicao , cinema WHERE exibicao.id = %s and exibicao.codigo_cinema_id = cinema.id",[exibicao_id])
+        context['assentos'] = Cinema.objects.raw("SELECT * FROM   assento" )
+        
+
+    return render(request, 'cinema_app/exibicao.html', context)
 
 
 # CRUD de Salas
