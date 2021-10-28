@@ -24,6 +24,8 @@ urlpatterns = [
     path('artigo/<int:artigo_id>/', views.artigo_form, name='artigo_update'),
     path('artigo/', views.artigo_form, name='artigo_insert'),
     path('artigo/delete/<int:artigo_id>/', views.artigo_delete, name='artigo_delete'),
+    path('artigos-todos/', views.artigo_all, name='artigo_all'),
+    path('artigos/visualizar/<int:artigo_id>/', views.artigo_view, name='artigo_view'),
 
     path('cinemas/', views.cinema_list, name='cinema_list'),
     path('cinema/<int:cinema_id>/', views.cinema_form, name='cinema_update'),

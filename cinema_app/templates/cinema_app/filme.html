@@ -1,8 +1,9 @@
 {% extends "cinema_app/base.html" %}
 
 {% block content %}
-
-  {{filme.nome_diretor}}
+  <img class="img-tumbnail" src="{{filme.poster_img.url}}"  alt="{{filme.nome}}" width="20%">
+  <h2>{{filme.nome}}</h2>
+  <h2>{{filme.nome_diretor}}</h2>
     <dib class="row">
         <div class="col text-center">
         <form class='rate-form' action="" method="POST" id={{filme.id}}>
@@ -18,13 +19,13 @@
         <div id="confirm-box"></div>
     </dib>
 
-    {% for exib in exibicoes %}  <a href="/filme/exibicao/{{exib.id}}/" class="btn-outline-primary mr-10">{{exib.hora}}</a>  {% endfor %}
+    <!-- {% for exib in exibicoes %}  <a href="/filme/exibicao/{{exib.id}}/" class="btn-outline-primary mr-10">{{exib.hora}}</a>  {% endfor %} -->
   {% for cinema in cinemas %}
-    <h1>{{ cinema.nome }}</h1>
+    <h2>{{ cinema.nome }}</h2>
 
     {% for sala in salas %}
-    aqui: {{sala.codigo_cinema_id}}
-    dps: {{cinema.nome}}
+    {{sala.codigo_cinema_id}}
+    {{cinema.id}}
       {% if sala.codigo_cinema_id == cinema.id %}
         <p> <h2>{{sala.id}}</h2>
         {% for exib in exibicoes %}  {% if exib.codigo_sala_id == sala.id and exib.codigo_cinema_id == cinema.id %} <a href="/filme/exibicao/{{filme.id}}/" class="btn-outline-primary mr-10">{{exib.hora}}</a> {% endif %} {% endfor %}

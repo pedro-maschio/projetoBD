@@ -1,0 +1,8 @@
+{% extends "cinema_app/base.html" %}
+
+{% block content %}
+  <img src="{{artigo.artigo_img.url}}">
+    <h1>{{artigo.titulo}}</h1>
+    {{artigo.texto}}
+    <h2>{{artigo.author}}</h2>
+{% endblock content %}
