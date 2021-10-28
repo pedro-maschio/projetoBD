@@ -8,10 +8,18 @@ import base64 # teste upload imagem
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db import connections
+from django.db.models.signals import post_save
 
 from cinema_app.forms import ExibicaoForm, FilmeForm, SalaForm, ArtigoForm, CinemaForm
 from .models import Filme, Sala, Exibicao, Artigo, Cinema, Avaliacao
 
+def dictfetchall(cursor):
+    "Return all rows from a cursor as a dict"
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
 
 def pagina_principal(request):
     list = islice(Artigo.objects.all(), 3)
@@ -84,13 +92,23 @@ def filme_view(request, filme_id=-1):
 def exibicao_view(request, exibicao_id=-1):
     context = {}
     if(exibicao_id != -1):
-        context['exibicao'] = Exibicao.objects.get(pk=exibicao_id)
-        context['filme']= Exibicao.objects.raw("SELECT * FROM exibicao, filme WHERE exibicao.id = %s and exibicao.codigo_sala_id = filme.id",[exibicao_id])
-        context['sala'] = Sala.objects.raw("SELECT * FROM exibicao, sala WHERE exibicao.id = %s and exibicao.codigo_sala_id = sala.id",[exibicao_id])
-        context['cinema'] = Cinema.objects.raw("SELECT * FROM  exibicao , cinema WHERE exibicao.id = %s and exibicao.codigo_cinema_id = cinema.id",[exibicao_id])
-        context['assentos'] = Cinema.objects.raw("SELECT * FROM   assento" )
+        cursor = connections['default'].cursor()
         
+        context['exibicao'] = Exibicao.objects.get(pk=exibicao_id)
+        cursor.execute("SELECT * FROM filme, exibicao WHERE filme.id = exibicao.codigo_filme_id AND exibicao.id = %s;",[exibicao_id])
+        context['filme'] = dictfetchall(cursor)
 
+        cursor.execute("SELECT * FROM sala ,exibicao WHERE exibicao.id = %s and exibicao.codigo_sala_id = sala.id;",[exibicao_id])
+        context['sala'] = dictfetchall(cursor)
+
+        cursor.execute("SELECT * FROM  cinema, exibicao WHERE exibicao.id = %s and cinema.id = exibicao.codigo_cinema_id;",[exibicao_id])
+        context['cinema'] = dictfetchall(cursor)
+
+        id = context['sala'][0]['id']
+        cursor.execute("SELECT * FROM assento WHERE assento.codigo_sala_id = %s;", [id] )
+        context['assentos'] = dictfetchall(cursor)
+        
+        
     return render(request, 'cinema_app/exibicao.html', context)
 
 
@@ -125,8 +143,16 @@ def sala_form(request, sala_id=-1):
             form = SalaForm(request.POST, instance=sala)
 
         if form.is_valid():
-            cursor = connections['default'].cursor()
-            cursor.execute("INSERT INTO sala(numero_assentos, codigo_cinema_id, sessao_3d, sessao_normal, sessao_platinum) VALUES(%s, %s, %s, %s, %s)", [numero_assentos, codigo_cinema, sessao_3d, sessao_normal, sessao_platinum])
+            form.save()
+            # cursor = connections['default'].cursor()
+            # query = """ INSERT INTO sala(numero_assentos, codigo_cinema_id, sessao_3d, sessao_normal, sessao_platinum) 
+            #                 VALUES(%s, %s, %s, %s, %s);
+            # """
+            # cursor.execute(query, [numero_assentos, codigo_cinema, sessao_3d, sessao_normal, sessao_platinum])
+            # cursor.execute("SELECT LAST_INSERT_ID();")
+            # inst = (cursor.fetchone())
+            # sala = Sala.objects.get(pk=inst[0])
+            # post_save.send(sender=Sala, instance=sala, created=True)
 
         return HttpResponseRedirect('/salas')
 
@@ -216,7 +242,9 @@ def artigo_delete(request, artigo_id=-1):
 
 @login_required
 def cinema_list(request):
-    context = {'cinema_list': Cinema.objects.all()}
+    query = """SELECT * FROM cinema;"""
+
+    context = {'cinema_list': Cinema.objects.raw(query)}
 
     return render(request, 'cinema_app/cinema_list.html', context)
 
@@ -254,7 +282,7 @@ def avaliar_filme(request):
         val = request.POST.get('val')
 
         aval = Avaliacao.objects.get(id=el_id)
-        aval.nota = val;
+        aval.nota = val
         aval.save()
 
         return JsonResponse({'success':'true', 'nota': val}, safe=False)
