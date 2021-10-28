@@ -46,7 +46,7 @@ class Cinema(models.Model):
 
 class Sala(models.Model):
     numero_assentos = models.IntegerField(default=0, verbose_name="Número de assentos")
-    codigo_cinema = models.ForeignKey(Cinema, models.SET_NULL, blank=True, null=True, verbose_name="Sala")
+    codigo_cinema = models.ForeignKey(Cinema, models.SET_NULL, blank=True, null=True, verbose_name="Cinema")
     sessao_3d = models.BooleanField(verbose_name="Sessão em 3D")
     sessao_normal = models.BooleanField(verbose_name="Sessão Normal")
     sessao_platinum = models.BooleanField(verbose_name="Sessão Platinum")

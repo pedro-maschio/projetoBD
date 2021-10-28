@@ -7,6 +7,7 @@ import base64 # teste upload imagem
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.db import connections
 
 from cinema_app.forms import ExibicaoForm, FilmeForm, SalaForm, ArtigoForm, CinemaForm
 from .models import Filme, Sala, Exibicao, Artigo, Cinema, Avaliacao
@@ -111,6 +112,12 @@ def sala_form(request, sala_id=-1):
             form = SalaForm(instance=sala)
         return render(request, 'cinema_app/sala_form.html', {'form': form})
     else:
+        numero_assentos = int(request.POST.get('numero_assentos'))
+        codigo_cinema = int(request.POST.get('codigo_cinema'))
+        sessao_3d = request.POST.get('sessao_3d') == 'on'
+        sessao_normal = request.POST.get('sessao_normal') == 'on'
+        sessao_platinum = request.POST.get('sessao_platinum') == 'on'
+
         if sala_id == -1:
             form = SalaForm(request.POST)
         else:
@@ -118,7 +125,8 @@ def sala_form(request, sala_id=-1):
             form = SalaForm(request.POST, instance=sala)
 
         if form.is_valid():
-            form.save()
+            cursor = connections['default'].cursor()
+            cursor.execute("INSERT INTO sala(numero_assentos, codigo_cinema_id, sessao_3d, sessao_normal, sessao_platinum) VALUES(%s, %s, %s, %s, %s)", [numero_assentos, codigo_cinema, sessao_3d, sessao_normal, sessao_platinum])
 
         return HttpResponseRedirect('/salas')
 
