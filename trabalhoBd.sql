@@ -18,10 +18,11 @@ CREATE TABLE cinema (
     numero VARCHAR(20) NOT NULL,
     cidade VARCHAR(50) NOT NULL,
     estado VARCHAR(50) NOT NULL,
-    codigo_admin VARCHAR(15) NOT NULL,
+    codigo_admin VARCHAR(14) NOT NULL,
     FOREIGN KEY (codigo_admin)
         REFERENCES administrador (cpf)
 );
+
 
 CREATE TABLE cliente (
     nome VARCHAR(100) NOT NULL,
@@ -44,7 +45,7 @@ CREATE TABLE sala (
 );
 
 CREATE TABLE assento (
-    codigo INT PRIMARY KEY NOT NULL,
+    codigo INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     fileira CHAR NOT NULL,
     numero INT NOT NULL,
     estado_conservacao VARCHAR(100) NOT NULL,
@@ -131,7 +132,7 @@ INSERT INTO administrador(nome, cpf, email, senha) VALUES("Patrícia Beltrão No
 
 
 # Cinema
-INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) VALUES("18.236.582/0001-75", "Cinema Premium", "Rua Fictícia, Quadra 3", "72322-403", 4, "Brasília", "Distrito Federal", 1);
+INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) VALUES("18.236.582/0001-75", "Cinema Premium", "Rua Fictícia, Quadra 3", "72322-403", 4, "Brasília", "Distrito Federal", "799.062.168-16");
 INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) VALUES("35.658.462/0001-85", "Cinema Brasília", "Rua Fictícia, Quadra 4", "73215-000", 0, "Brasília", "Distrito Federal", "819.166.051-25");
 INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) VALUES("81.276.435/0001-65", "Cinema Capital", "Rua Fictícia, Quadra 5", "73005-591", 11, "Brasília", "Distrito Federal", "678.203.532-44");
 INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) VALUES("82.263.132/0001-70", "Cinema Deluxe", "Rua Fictícia, Quadra 6", "74262-009", 9, "Brasília", "Distrito Federal", "678.203.532-44");
@@ -157,11 +158,11 @@ INSERT INTO sala(codigo_cinema, sessao_3d, sessao_normal, sessao_platinum) VALUE
 
 
 # Assento
-INSERT INTO assento VALUES(1, "A", 1, "Bem conservado", True, 1);
-INSERT INTO assento VALUES(2, "F", 1, "Pequenos rasgos no encosto", False, 1);
-INSERT INTO assento VALUES(3, "F", 2, "Range constantemente", False, 4);
-INSERT INTO assento VALUES(4, "C", 5, "Bem conservado", True, 4);
-INSERT INTO assento VALUES(5, "G", 7, "Bem conservado", True, 4);
+INSERT INTO assento(fileira, numero, estado_conservacao, adaptada, reservado, codigo_sala) VALUES("A", 1, "Bem conservado", True, False, 1);
+INSERT INTO assento(fileira, numero, estado_conservacao, adaptada, reservado, codigo_sala) VALUES("F", 1, "Pequenos rasgos no encosto", False, False, 1);
+INSERT INTO assento(fileira, numero, estado_conservacao, adaptada, reservado, codigo_sala) VALUES("F", 2, "Range constantemente", False, True, 4);
+INSERT INTO assento(fileira, numero, estado_conservacao, adaptada, reservado, codigo_sala) VALUES("C", 5, "Bem conservado", True, True, 4);
+INSERT INTO assento(fileira, numero, estado_conservacao, adaptada, reservado, codigo_sala) VALUES("G", 7, "Bem conservado", True, False, 4);
 
 
 # Filme
@@ -211,7 +212,7 @@ CREATE VIEW filmes_noturnos AS
     FROM
         exibicao
     WHERE
-        exibicao.hora >= '18:00:00';
+        exibicao.horario >= '18:00:00';
 
 SELECT
     *
@@ -240,6 +241,5 @@ DELIMITER ;
 CALL exibicao_em_intervalo("2021-10-18", "2021-10-28");
 
 
-show tables;
 
 
