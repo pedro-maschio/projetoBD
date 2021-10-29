@@ -42,6 +42,18 @@ def filme_form(request, filme_id=-1, filme_nome=""):
 
         return render(request, 'cinema_app/filme_form.html', {'form': form})
     else:
+
+
+        nome = request.POST.get('nome')
+        ano_lancamento = int(request.POST.get('ano_lancamento'))
+        duracao_min =  int(request.POST.get('duracao_min'))
+        nome_diretor = request.POST.get('nome_diretor')
+        elenco = request.POST.get('elenco')
+        genero = request.POST.get('genero')
+        sinopse = request.POST.get('sinopse')
+        
+
+
         if filme_id == -1:
             form = FilmeForm(request.POST, request.FILES)
         else:
@@ -49,14 +61,30 @@ def filme_form(request, filme_id=-1, filme_nome=""):
             form = FilmeForm(request.POST, request.FILES, instance=filme)
 
         if form.is_valid():
-            new_form = form.save(commit=False)
+            cursor = connections['default'].cursor()
+
+
+            
             if(len(request.FILES) != 0):
                 imagem = request.FILES['poster_img'].read()
-                new_form.poster_img_blob = base64.b64encode(imagem)
+                poster_img_blob = base64.b64encode(imagem)
+                poster = request.FILES['poster_img']
+                query = """ INSERT INTO filme(nome, ano_lancamento, duracao_min, nome_diretor, poster_img, poster_img_blob, elenco, genero, sinopse) 
+                            VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s);
+                """
+                cursor.execute(query, [nome, ano_lancamento, duracao_min, nome_diretor, poster, poster_img_blob, elenco, genero, sinopse])
+            else:
+                query = """ INSERT INTO filme(nome, ano_lancamento, nome_diretor, elenco, genero, sinopse) 
+                            VALUES(%s, %s, %s, %s, %s, %s, %s);
+                """
+                cursor.execute(query, [nome, ano_lancamento, duracao_min, nome_diretor, elenco, genero, sinopse])
             
-            new_form.save()
+
+            
+            
 
         return HttpResponseRedirect('/filmes')
+
 
 @login_required
 def filme_list(request, filme_nome=""):
@@ -93,10 +121,6 @@ def filme_view(request, filme_id=-1):
 
         cursor.execute("SELECT * FROM sala, exibicao WHERE exibicao.codigo_filme_id = %s AND exibicao.codigo_sala_id = sala.id;",[filme_id])
         context['salas'] = dictfetchall(cursor)
-
-        print(context['exibicoes'])
-        print(context['cinemas'])
-        print(context['salas'])
 
     return render(request, 'cinema_app/filme.html', context)
 
@@ -185,8 +209,11 @@ def sala_form(request, sala_id=-1):
 def sala_delete(request, sala_id=-1):
     if sala_id != -1:
         cursor = connections['default'].cursor()
-        exibicao = Sala.objects.get(pk=sala_id)
-        exibicao.delete()
+        cursor.execute("DELETE FROM exibicao WHERE exibicao.codigo_sala_id = %s;",[sala_id])
+        cursor.execute("DELETE FROM assento WHERE assento.codigo_sala_id = %s;",[sala_id])
+        cursor.execute("DELETE FROM sala WHERE sala.id = %s;",[sala_id])
+        # exibicao = Sala.objects.get(pk=sala_id)
+        # exibicao.delete()
 
     return HttpResponseRedirect('/salas')
 
@@ -195,7 +222,7 @@ def sala_delete(request, sala_id=-1):
 
 @login_required
 def exibicao_list(request):
-    context = {'exibicao_list': Exibicao.objects.all()}
+    context = {'exibicao_list': Exibicao.objects.raw("SELECT * FROM exibicao")}
 
     return render(request, 'cinema_app/exibicao_list.html', context)
 
@@ -209,6 +236,15 @@ def exibicao_form(request, exibicao_id=-1):
             form = ExibicaoForm(instance=exibicao)
         return render(request, 'cinema_app/exibicao_form.html', {'form': form})
     else:
+        codigo_filme = int(request.POST.get('codigo_filme'))
+        codigo_sala = int(request.POST.get('codigo_sala'))
+        codigo_cinema = int(request.POST.get('codigo_cinema'))
+        audio = request.POST.get('audio')
+        legenda = request.POST.get('legenda')
+        data = request.POST.get('data')
+        hora = request.POST.get('hora')
+        
+
         if exibicao_id == -1:
             form = ExibicaoForm(request.POST)
         else:
@@ -216,15 +252,19 @@ def exibicao_form(request, exibicao_id=-1):
             form = ExibicaoForm(request.POST, instance=exibicao)
 
         if form.is_valid():
-            form.save()
+            cursor = connections['default'].cursor()
+            query = """ INSERT INTO exibicao(codigo_filme, codigo_sala, codigo_cinema, audio, legenda, data, hora) 
+                            VALUES(%s, %s, %s, %s, %s, %s, %s);
+            """
+            cursor.execute(query, [codigo_filme, codigo_sala, codigo_cinema, audio, legenda, data, hora])
 
         return HttpResponseRedirect('/exibicoes')
 
 @login_required
 def exibicao_delete(request, exibicao_id=-1):
     if exibicao_id != -1:
-        exibicao = Exibicao.objects.get(pk=exibicao_id)
-        exibicao.delete()
+        cursor = connections['default'].cursor()
+        cursor.execute("DELETE FROM exibicao WHERE exibicao.id = %s;",[exibicao_id])
 
     return HttpResponseRedirect('/exibicoes')
 
@@ -232,7 +272,7 @@ def exibicao_delete(request, exibicao_id=-1):
 
 @login_required
 def artigo_list(request):
-    context = {'artigo_list': Artigo.objects.all()}
+    context = {'artigo_list': Artigo.objects.raw("SELECT * FROM artigo")}
 
     return render(request, 'cinema_app/artigo_list.html', context)
 
@@ -246,6 +286,7 @@ def artigo_form(request, artigo_id=-1):
             form = ArtigoForm(instance=artigo)
         return render(request, 'cinema_app/artigo_form.html', {'form': form})
     else:
+
         if artigo_id == -1:
             form = ArtigoForm(request.POST, request.FILES)
         else:
@@ -256,11 +297,18 @@ def artigo_form(request, artigo_id=-1):
             form.save()
         return HttpResponseRedirect('/artigos')
 
+
+        
+        
+        
+
+
+
 @login_required
 def artigo_delete(request, artigo_id=-1):
     if artigo_id != -1:
-        artigo = Artigo.objects.get(pk=artigo_id)
-        artigo.delete()
+        cursor = connections['default'].cursor()
+        cursor.execute("DELETE FROM artigo WHERE artigo.id = %s;",[artigo_id])
 
     return HttpResponseRedirect('/artigos')
 
@@ -284,6 +332,15 @@ def cinema_form(request, cinema_id=-1):
             form = CinemaForm(instance=cinema)
         return render(request, 'cinema_app/cinema_form.html', {'form': form})
     else:
+        cnpj = request.POST.get('cnpj')
+        nome = request.POST.get('nome')
+        endereco = request.POST.get('endereco')
+        cep = int(request.POST.get('cep'))
+        numero = int(request.POST.get('numero'))
+        cidade = request.POST.get('cidade')
+        estado = request.POST.get('estado')
+        codigo_admin = int(request.POST.get('codigo_admin'))
+
         if cinema_id == -1:
             form = CinemaForm(request.POST, request.FILES)
         else:
@@ -291,14 +348,20 @@ def cinema_form(request, cinema_id=-1):
             form = CinemaForm(request.POST, request.FILES, instance=cinema)
 
         if form.is_valid():
-            form.save()
+            cursor = connections['default'].cursor()
+            query = """ INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) 
+                            VALUES(%s, %s, %s, %s, %s, %s, %s, %s);
+            """
+            cursor.execute(query, [cnpj, nome, endereco, cep, numero, cidade, estado , codigo_admin])
         return HttpResponseRedirect('/cinemas')
+
+            
 
 @login_required
 def cinema_delete(request, cinema_id=-1):
     if cinema_id != -1:
-        cinema= Cinema.objects.get(pk=cinema_id)
-        cinema.delete()
+        cursor = connections['default'].cursor()
+        cursor.execute("DELETE FROM cinema WHERE cinema.id = %s;",[cinema_id])
 
     return HttpResponseRedirect('/cinemas')
 

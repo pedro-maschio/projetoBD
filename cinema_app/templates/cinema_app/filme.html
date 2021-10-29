@@ -2,8 +2,8 @@
 
 {% block content %}
   <img class="img-tumbnail" src="{{filme.poster_img.url}}"  alt="{{filme.nome}}" width="20%">
-  <h2>{{filme.nome}}</h2>
-  <h2>{{filme.nome_diretor}}</h2>
+  <h1 class="display-4"></h1>
+  <h2 class="display-4">{{filme.nome}}</h2>
     <dib class="row">
         <div class="col text-center">
         <form class='rate-form' action="" method="POST" id={{filme.id}}>
@@ -19,7 +19,9 @@
         <div id="confirm-box"></div>
     </dib>
 
-    <!-- {% for exib in exibicoes %}  <a href="/filme/exibicao/{{exib.id}}/" class="btn-outline-primary mr-10">{{exib.hora}}</a>  {% endfor %} -->
+    {% for exib in exibicoes %}  <a href="/filme/exibicao/{{exib.id}}/" class="btn-outline-primary mr-10">{{exib.hora}}</a>  {% endfor %} 
+    
+
   {% for cinema in cinemas %}
     <h2>{{ cinema.nome }}</h2>
 
