@@ -253,7 +253,7 @@ def exibicao_form(request, exibicao_id=-1):
 
         if form.is_valid():
             cursor = connections['default'].cursor()
-            query = """ INSERT INTO exibicao(codigo_filme, codigo_sala, codigo_cinema, audio, legenda, data, hora) 
+            query = """ INSERT INTO exibicao(codigo_filme_id, codigo_sala_id, codigo_cinema_id, audio, legenda, data, hora) 
                             VALUES(%s, %s, %s, %s, %s, %s, %s);
             """
             cursor.execute(query, [codigo_filme, codigo_sala, codigo_cinema, audio, legenda, data, hora])
@@ -349,7 +349,7 @@ def cinema_form(request, cinema_id=-1):
 
         if form.is_valid():
             cursor = connections['default'].cursor()
-            query = """ INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin) 
+            query = """ INSERT INTO cinema(cnpj, nome, endereco, cep, numero, cidade, estado, codigo_admin_id) 
                             VALUES(%s, %s, %s, %s, %s, %s, %s, %s);
             """
             cursor.execute(query, [cnpj, nome, endereco, cep, numero, cidade, estado , codigo_admin])
